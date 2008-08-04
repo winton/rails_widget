@@ -27,4 +27,5 @@ namespace :widgets do
         FileUtils.cp f, to
       end
     end
+  end
 end
