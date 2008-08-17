@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name    = 'rails_widget'
-  s.version = '1.0.1'
+  s.version = '1.0.2'
   s.date    = '2008-08-16'
   
   s.summary     = "A mini-framework for your client side Rails assets"
