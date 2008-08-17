@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name    = 'rails_widget'
-  s.version = '1.0.0'
+  s.version = '1.0.1'
   s.date    = '2008-08-16'
   
   s.summary     = "A mini-framework for your client side Rails assets"
@@ -12,11 +12,12 @@ Gem::Specification.new do |s|
   
   s.has_rdoc = false
   
-  s.files = %w(
+  s.files = Dir[*%w(
     init.rb
     lib/*
     lib/**/*
     MIT-LICENSE
     README.markdown
-    tasks/*)
+    tasks/*
+  )]
 end
