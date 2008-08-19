@@ -145,7 +145,7 @@ module WidgetHelpers
             case key
             when :flash, :images
               FileUtils.mkdir_p to
-              FileUtils.copy f, t
+              FileUtils.cp_r f, t
             when :javascripts, :stylesheets
               FileUtils.mkdir_p File.dirname(t)
               File.open t, 'w' do |file|
