@@ -1,4 +1,4 @@
-module RailsWidget #:doc:
+module RailsWidget
   
   # Stores information about a widget and renders assets to <tt>public/</tt> when necessary.
   #
@@ -8,7 +8,7 @@ module RailsWidget #:doc:
     attr :options, true # Options hash from options.rb
     attr :path,    true # Path to widget
 
-    ASSET_TYPES = [ :flash, :images, :javascripts, :stylesheets, :templates, :init_js, :init_partials ]
+    ASSET_TYPES = [ :flash, :images, :javascripts, :stylesheets, :templates, :init_css, :init_js, :init_partials ]
 
     # Calls <tt>update_options</tt> and <tt>update_asset</tt> for each <tt>ASSET_TYPE</tt>.
     #
@@ -89,7 +89,7 @@ module RailsWidget #:doc:
       end
     end
     
-    # Renders and returns the init partial (<tt>partials/_init.*</tt>).
+    # Renders and returns the init file for a particular <tt>ASSET_TYPE</tt>.
     #
     # The render will not occur if it has already happened with the same <tt>:id</tt> option.
     #
@@ -134,6 +134,7 @@ module RailsWidget #:doc:
       base  = "app/widgets#{slash}#{path}"
       case type
       when :base:          base
+      when :init_css:      base + '/stylesheets/init'
       when :init_js:       base + '/javascripts/init'
       when :init_partials: base + '/partials/_init'
       when :options:       base + '/options.rb'

@@ -1,10 +1,60 @@
-module RailsWidget #:doc:
+module RailsWidget
   
+  # See <tt>RailsWidget</tt>.
+  #
   def widget(*path)
     @assets  ||= Assets.new  binding, controller
     @widgets ||= Widgets.new @assets, binding, controller, logger
     options = path.extract_options!
     @widgets.build path, options
+  end
+  
+  # Returns a path for a flash asset.
+  #
+  # ==== Example
+  #   <%= flash_path :some, :widget, 'flash.swf' %>
+  #
+  def flash_path(*path)
+    flash = path.pop
+    "/flash/widgets/#{path.join('/')}/#{flash}"
+  end
+  
+  # Returns an image tag for a image asset.
+  #
+  # ==== Example
+  #   <%= image :some, :widget, 'image.png' %>
+  #
+  def image(*path)
+    options = path.extract_options!
+    image = path.pop
+    image_tag "widgets/#{path.join('/')}/#{image}", options
+  end
+  
+  # Returns an image path for a image asset.
+  #
+  # ==== Example
+  #   <%= image_path :some, :widget, 'image.png' %>
+  #
+  def image_path(*path)
+    image = path.pop
+    "/images/widgets/#{path.join('/')}/#{image}"
+  end
+  
+  # Renders a partial asset.
+  #
+  # ==== Example
+  #   <%= partial :some, :widget, 'image.png' %>
+  #
+  def partial(*path)
+    options = path.extract_options!
+    partial = path.pop
+    path << options
+    widgets, options = widget_instances path
+    options = {
+      :locals  => options.merge(:options => options),
+      :partial => "#{path.join('/')}/partials/#{partial}"
+    }
+    render options
   end
   
   # Creates and recycles instances of the Widget class.
@@ -82,10 +132,14 @@ module RailsWidget #:doc:
       widgets.collect do |w|
         # We want widgets rendered from the partial to include first
         partial = w.render_init :partials, options
-        js = w.render_init :js, options
+        css = w.render_init :css, options
+        js  = w.render_init :js,  options
         if options[:include_js] && js && !js.empty?
           partial + "\n<script type='text/javascript'>\n#{js}\n</script>"
         else
+          @assets.stylesheets do
+            css
+          end
           @assets.javascripts do
             js
           end

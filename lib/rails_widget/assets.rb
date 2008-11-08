@@ -1,8 +1,8 @@
-module RailsWidget #:doc:
+module RailsWidget
   
-  # Adds or renders javascript assets (code or paths) based on whether parameters are given or not.
+  # Adds or renders javascript assets based on whether parameters are given or not.
   #
-  # ==== Layout example
+  # ==== Layout view
   #   <html>
   #     <head>
   #       <%= javascripts %>
@@ -10,13 +10,13 @@ module RailsWidget #:doc:
   #     <%= yield %>
   #   </html>
   #
-  # ==== Action example
+  # ==== Action view
   #   <% javascripts 'script1', 'script2' do -%>
   #     alert('Hello world!');
   #   <% end -%>
   #   Content goes here.
   #
-  # ==== Result
+  # ==== Resulting HTML
   #   <html>
   #     <head>
   #       <script src="/javascripts/script1.js?1220593492" type="text/javascript"></script>
@@ -75,6 +75,8 @@ module RailsWidget #:doc:
   
   # Adds or renders textarea-based templates based on whether parameters are given or not.
   #
+  # Use this with something like PURE <http://beebole.com/pure> or TrimPath's JST <http://trimpath.com>.
+  #
   # ==== Layout example
   #   <html>
   #     <%= yield %>
@@ -82,7 +84,7 @@ module RailsWidget #:doc:
   #   </html>
   #
   # ==== Action example
-  #   <%= templates :id => 'myid', :partial => 'some_action/partial', :locals => { :x => 'Hello world' } %>
+  #   <% templates :id => 'myid', :partial => 'some_action/partial', :locals => { :x => 'Hello world' } -%>
   #   <% templates do -%>
   #     Template goes here.
   #   <% end -%>
@@ -165,8 +167,9 @@ module RailsWidget #:doc:
           @assets[type].collect! { |a| a[0].respond_to?(:keys) ? nil : a }
           @assets[type].compact!
         end
-      
-        js = []
+        
+        css = []
+        js  = []
         assets = @assets[type].collect do |item|
           if item.respond_to?(:pop)
             @item = item
@@ -187,7 +190,10 @@ module RailsWidget #:doc:
           else
             case type
             when :javascripts
-              js.push(item) unless item.blank?
+              js.push(item)  unless item.blank?
+              nil
+            when :stylesheets
+              css.push(item) unless item.blank?
               nil
             when :templates
               @item = { :body => item }
@@ -199,6 +205,8 @@ module RailsWidget #:doc:
         end.compact
         if type == :javascripts
           assets.join + "<script type='text/javascript'>\n#{js.join "\n"}\n</script>"
+        elsif type == :javascripts
+          assets.join + "<style type='text/css'>\n#{css.join "\n"}\n</style>"
         else
           assets.join
         end
