@@ -12,6 +12,8 @@ module RailsWidget #:doc:
   class Widgets
     attr :widgets, true
     
+    # Should be called from a helper. See <tt>widget (RailsWidget)</tt>.
+    #
     # ==== Example
     #   w = Widgets.new Assets.new(binding, controller), binding, controller, logger
     #

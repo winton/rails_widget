@@ -1,15 +1,111 @@
 module RailsWidget #:doc:
   
+  # Adds or renders javascript assets (code or paths) based on whether parameters are given or not.
+  #
+  # ==== Layout example
+  #   <html>
+  #     <head>
+  #       <%= javascripts %>
+  #     </head>
+  #     <%= yield %>
+  #   </html>
+  #
+  # ==== Action example
+  #   <% javascripts 'script1', 'script2' do -%>
+  #     alert('Hello world!');
+  #   <% end -%>
+  #   Content goes here.
+  #
+  # ==== Result
+  #   <html>
+  #     <head>
+  #       <script src="/javascripts/script1.js?1220593492" type="text/javascript"></script>
+  #       <script src="/javascripts/script2.js?1220593492" type="text/javascript"></script>
+  #       <script type='text/javascript'>
+  #         alert('Hello world!');
+  #       </script>
+  #     </head>
+  #     Content goes here.
+  #   </html>
+  #
+  # Calling <tt>javascripts</tt> with path parameters or a script block will store the asset for later rendering.
+  #
+  # Calling <tt>javascripts</tt> without parameters renders the assets in the order they were added.
+  #
+  # The method accepts all options supported by <tt>javascript_include_tag</tt>.
+  #
   def javascripts(*paths, &block)
     @assets ||= Assets.new binding, controller
     @assets.javascripts *paths, &block
   end
-
+  
+  # Adds or renders stylesheet assets based on whether parameters are given or not.
+  #
+  # ==== Layout example
+  #   <html>
+  #     <head>
+  #       <%= stylesheets %>
+  #     </head>
+  #     <%= yield %>
+  #   </html>
+  #
+  # ==== Action example
+  #   <% stylesheets 'style1', 'style2' -%>
+  #   Content goes here.
+  #
+  # ==== Result
+  #   <html>
+  #     <head>
+  #       <link href="/stylesheets/style1.css?1224923418" media="screen" rel="stylesheet" type="text/css" />
+  #       <link href="/stylesheets/style2.css?1224923418" media="screen" rel="stylesheet" type="text/css" />
+  #     </head>
+  #     Content goes here.
+  #   </html>
+  #
+  # Calling <tt>stylesheets</tt> with path parameters will store the asset for later rendering.
+  #
+  # Calling <tt>stylesheets</tt> without parameters renders the assets in the order they were added.
+  #
+  # The method accepts all options supported by <tt>stylesheet_link_tag</tt>.
+  #
   def stylesheets(*paths, &block)
     @assets ||= Assets.new binding, controller
     @assets.stylesheets *paths, &block
   end
-
+  
+  # Adds or renders textarea-based templates based on whether parameters are given or not.
+  #
+  # ==== Layout example
+  #   <html>
+  #     <%= yield %>
+  #     <%= templates %>
+  #   </html>
+  #
+  # ==== Action example
+  #   <%= templates :id => 'myid', :partial => 'some_action/partial', :locals => { :x => 'Hello world' } %>
+  #   <% templates do -%>
+  #     Template goes here.
+  #   <% end -%>
+  #   Content goes here.
+  #
+  # ==== Partial example (<tt>some_action/partial</tt>)
+  #   <%= x %>!
+  #
+  # ==== Result
+  #   <html>
+  #     Content goes here.
+  #     <textarea id='template_myid' style='display:none'>
+  #       Hello world!
+  #     </textarea>
+  #     <textarea id='template' style='display:none'>
+  #       Template goes here.
+  #     </textarea>
+  #   </html>
+  #
+  # Calling <tt>templates</tt> with path parameters or a block will store the asset for later rendering.
+  #
+  # Calling <tt>templates</tt> without parameters renders the assets in the order they were added.
+  #
   def templates(*paths, &block)
     @assets ||= Assets.new binding, controller
     @assets.templates *paths, &block
@@ -35,38 +131,40 @@ module RailsWidget #:doc:
     end
   
     def templates(*paths, &block)
-      paths.each do |path|
-        add_assets :templates, path, &block
-      end
-      add_assets(:templates, paths, &block) if paths.empty?
+      add_assets :templates, paths, &block
     end
     
     private
     
     def add_assets(type, paths, &block)
-      options = paths.extract_options!
-      paths.flatten! unless type == :templates
-      
       @assets[type] ||= []
-    
-      paths = nil if paths.empty?
-    
-      paths.push(options) if paths
-      @assets[type].push(paths) if paths
+      options = paths.extract_options! unless type == :templates
+      
+      if paths.empty?
+        paths = nil 
+      else
+        paths.flatten!
+        paths.push options unless type == :templates
+        @assets[type].push paths
+      end
+      
       if block
-        @block = block
-        @assets[type].push eval("capture(&@assets.block)", @bind)
+        @block  = block
+        capture = eval "capture(&@assets.block)", @bind
+        if type == :templates && !paths.empty?
+          @assets[type].last.push capture
+        else
+          @assets[type].push capture
+        end
       end
     
       if !paths && !block
-        #logger.info type.inspect
-        #logger.info 'LAYOUT ' + @layout_assets[type].inspect
-        #logger.info @assets[type].inspect
-      
         @assets[type].uniq!
         remove_dups @assets[type]
-        @assets[type].collect! { |a| a[0].respond_to?(:keys) ? nil : a }
-        @assets[type].compact!
+        unless type == :templates
+          @assets[type].collect! { |a| a[0].respond_to?(:keys) ? nil : a }
+          @assets[type].compact!
+        end
       
         js = []
         assets = @assets[type].collect do |item|
@@ -78,13 +176,22 @@ module RailsWidget #:doc:
             when :stylesheets
               eval "stylesheet_link_tag    *@assets.item", @bind
             when :templates
-              eval "textarea_template @assets.item[0], @assets.item[1], @assets.item[2]", @bind
+              item.each_index do |x|
+                @item = item[x]
+                next if @item.respond_to?(:gsub)
+                n = item[x + 1]
+                @item[:body] = n if n.respond_to?(:gsub)
+                eval "textarea_template @assets.item", @bind
+              end
             end + "\n"
           else
             case type
             when :javascripts
               js.push(item) unless item.blank?
               nil
+            when :templates
+              @item = { :body => item }
+              eval "textarea_template @assets.item", @bind
             else
               item
             end
@@ -114,11 +221,14 @@ module RailsWidget #:doc:
       end
     end
   
-    def textarea_template(id, path=nil, locals={})
-      @controller.render_to_string(:partial => 'app_helpers/template/textarea', :locals => {
-        :id => id,
-        :body => @controller.render_to_string(:partial => path, :locals => locals)
-      })
+    def textarea_template(options)
+      id = 'template' + (options[:id] ? "_#{options[:id]}" : '')
+      if options[:body]
+        body = options[:body]
+      elsif options[:partial]
+        body = @controller.render_to_string :partial => options[:partial], :locals => options[:locals]
+      end
+      "<textarea id='#{id}' style='display:none'>\n#{body}\n</textarea>" 
     end
   end
 end
