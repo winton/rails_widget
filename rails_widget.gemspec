@@ -1,16 +1,16 @@
 Gem::Specification.new do |s|
   s.name    = 'rails_widget'
-  s.version = '1.0.2'
-  s.date    = '2008-08-16'
+  s.version = '1.1'
+  s.date    = '2008-11-08'
   
-  s.summary     = "A mini-framework for your client side Rails assets"
-  s.description = "A mini-framework for your client side Rails assets"
+  s.summary     = "Allows you to group your client-side assets into distributable widgets"
+  s.description = "Allows you to group your client-side assets into distributable widgets"
   
   s.author   = 'Winton Welsh'
   s.email    = 'mail@wintoni.us'
   s.homepage = 'http://github.com/winton/rails_widget'
   
-  s.has_rdoc = false
+  s.has_rdoc = true
   
   s.files = Dir[*%w(
     init.rb
@@ -18,6 +18,5 @@ Gem::Specification.new do |s|
     lib/**/*
     MIT-LICENSE
     README.markdown
-    tasks/*
   )]
 end

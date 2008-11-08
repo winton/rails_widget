@@ -1,8 +1,23 @@
-Rails Widget
-============
+RailsWidget
+===========
 
-A mini-framework for your client side Rails assets.
+Allows you to group your client-side assets into distributable "widgets"
 
-**This plugin is very beta. More details coming soon.**
+* Attach assets and render partials with a single <tt>widget</tt> call
+* Configure widgets via an <tt>options.rb</tt> file
+* Supported assets: flash, images, partials, javascripts, stylesheets, and textarea templates
 
-##### Copyright (c) 2008 [Winton Welsh](mailto:mail@wintoni.us), released under the MIT license
+
+Install
+-------
+
+	script/plugin install git://github.com/winton/rails_widget.git
+
+
+Documentation
+--------------
+
+[RDoc](http://wintoni.us/rails_widget) for more details.
+
+
+##### Copyright &copy; 2008 [Winton Welsh](mailto:mail@wintoni.us), released under the MIT license

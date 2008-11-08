@@ -1,4 +1,8 @@
-# RailsWidget allows you to group your client-side assets and attach them to the layout with a single method call.
+# RailsWidget allows you to group your client-side assets into distributable "widgets"
+#
+# * Attach assets and render partials with a single <tt>widget</tt> call
+# * Configure widgets via an <tt>options.rb</tt> file
+# * Supported assets: flash, images, partials, javascripts, stylesheets, and textarea templates
 #
 # == Example
 # === What is a widget?
