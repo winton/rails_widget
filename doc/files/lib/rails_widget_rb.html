@@ -329,116 +329,32 @@ File: rails_widget.rb
 
 <div id="description"><p>
 <a href="../../classes/RailsWidget.html">RailsWidget</a> allows you to
-group your client-side assets into distributable &quot;widgets&quot;
+group your client-side assets into distributable &quot;widgets&quot;.
 </p>
 <ul>
-<li>Attach assets and render partials with a single <tt>widget</tt> call
+<li>Include assets and render partials into your layout with a single
+<tt>widget</tt> call
 
 </li>
-<li>Configure widgets via an <tt>options.rb</tt> file
+<li>Share a common options hash between all of your renderable assets
 
 </li>
-<li>Supports flash, images, javascripts, partials, stylesheets, and textarea
-templates
+<li>Widgets are inheritable
+
+</li>
+<li>Also supports flash, images, javascripts, stylesheets, and textarea
+template (jst) assets
 
 </li>
 </ul>
-<h2>Example</h2>
-<h3>What is a widget?</h3>
 <p>
-Each directory in <tt>app/widgets</tt> is considered a widget. Let&#8216;s
-make a widget called <tt>alert</tt>.
+Install your first widget &lt;<a
+href="http://github.com/winton/rails_widget/wikis">github.com/winton/rails_widget/wikis</a>&gt;.
 </p>
-<pre>
-  app/
-    widgets/
-      alert/
-        options.rb
-        flash/
-        images/
-        javascripts/
-          alert.js
-          init.js
-        partials/
-          _init.html.erb
-        stylesheets/
-          init.css
-          style.css
-        templates/
-</pre>
 <p>
-<b>Init</b> files are erb-rendered directly to the page (dynamic, inline).
+More documentation can be found on our github wiki &lt;<a
+href="http://github.com/winton/rails_widget/wikis">github.com/winton/rails_widget/wikis</a>&gt;.
 </p>
-<h4>options.rb</h4>
-<pre>
-  { :id =&gt; 'alert', :message =&gt; 'Hello world!', :color =&gt; 'red' }
-</pre>
-<h4>javascripts/alert.js</h4>
-<pre>
-  function alertWidget(options) {
-    alert(options.message);
-  }
-</pre>
-<h4>javascripts/init.js</h4>
-<pre>
-  alertWidget(&lt;%= options.to_json %&gt;);
-</pre>
-<h4>partials/_init.html.erb</h4>
-<pre>
-  &lt;div id=&quot;&lt;%= id %&gt;&quot; class=&quot;alert&quot;&gt;
-    You just got alerted.
-  &lt;/div&gt;
-</pre>
-<h4>stylesheets/init.css</h4>
-<pre>
-  #&lt;%= id %&gt; { color:&lt;%= color %&gt;; }
-</pre>
-<h4>stylesheets/style.css</h4>
-<pre>
-  .alert { font-size:18px; }
-</pre>
-<h3>Layout view</h3>
-<pre>
-  &lt;html&gt;
-    &lt;head&gt;
-      &lt;%= javascripts %&gt;
-      &lt;%= stylesheets %&gt;
-    &lt;/head&gt;
-    &lt;body&gt;
-      &lt;%= yield %&gt;
-    &lt;/body&gt;
-  &lt;/html&gt;
-</pre>
-<h3>Action view</h3>
-<pre>
-  &lt;%= widget :alert, :id =&gt; 'alert1', :color =&gt; 'blue' %&gt;
-  &lt;%= widget :alert, :id =&gt; 'alert2' %&gt;
-</pre>
-<h3>Resulting HTML</h3>
-<pre>
-  &lt;html&gt;
-    &lt;head&gt;
-      &lt;script src=&quot;/javascripts/widgets/alert/alert.js?1220593492&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
-      &lt;script type='text/javascript'&gt;
-        alertWidget({ id: 'alert', message: 'Hello world!', color: 'red' });
-      &lt;/script&gt;
-      &lt;link href=&quot;/stylesheets/widgets/alert/style.css?1220593492&quot; media=&quot;screen&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot; /&gt;
-      &lt;style type=&quot;text/css&quot;&gt;
-        #alert1 { color:blue; }
-        #alert2 { color:red; }
-      &lt;/style&gt;
-    &lt;/head&gt;
-    &lt;body&gt;
-      &lt;div id=&quot;alert1&quot; class=&quot;alert&quot;&gt;
-        You just got alerted.
-      &lt;/div&gt;
-      &lt;div id=&quot;alert2&quot; class=&quot;alert&quot;&gt;
-        You just got alerted.
-      &lt;/div&gt;
-    &lt;/body&gt;
-  &lt;/html&gt;
-</pre>
-<h2>Inheritance</h2>
 </div>
 
 

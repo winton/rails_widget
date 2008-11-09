@@ -113,10 +113,14 @@ module RailsWidget
     @assets.templates *options, &block
   end
   
+  # Keeps track of assets added by the javascripts, stylesheets, and templates helpers.
+  #
   class Assets
     attr :assets, true
     
-    # Used for eval access
+    # This is used for outside access from eval calls.
+    # Is there a better way to do this?
+    #
     attr :block,   true
     attr :params,  true
     attr :options, true
@@ -128,21 +132,31 @@ module RailsWidget
       @logger = logger
     end
     
+    # See <tt>javascripts (RailsWidget)</tt>.
+    #
     def javascripts(*params, &block)
       add_assets :javascripts, params, &block
     end
-  
+    
+    # See <tt>stylesheets (RailsWidget)</tt>.
+    #
     def stylesheets(*params, &block)
       add_assets :stylesheets, params, &block
     end
-  
+    
+    # See <tt>templates (RailsWidget)</tt>.
+    #
     def templates(*params, &block)
       add_assets :templates, params, &block
     end
     
     private
     
-    def add_assets(type, params, &block)
+    # Adds assets and returns layout HTML.
+    #
+    # If no params or block are given, HTML is returned for the specified asset type.
+    #
+    def add_assets(type, params, &block) #:doc:
       options = params.extract_options! unless type == :templates
       capture = block_to_string &block
       asset   = delete_if_empty(:options => options, :params => params, :capture => capture)
@@ -155,6 +169,7 @@ module RailsWidget
         @assets[type].each do |item|
           @capture = item[:capture]
           @params  = item[:params]
+          @options = item[:options]
           case type
           when :javascripts
             captures.push(@capture) if @capture

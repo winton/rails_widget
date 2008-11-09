@@ -17,7 +17,7 @@ Install
 Documentation
 --------------
 
-[RDoc](http://wintoni.us/rails_widget) for more details.
+[Visit the wiki](http://github.com/winton/rails_widget/wikis) for more details.
 
 
 ##### Copyright &copy; 2008 [Winton Welsh](mailto:mail@wintoni.us), released under the MIT license

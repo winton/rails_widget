@@ -107,6 +107,8 @@ module RailsWidget
 
     # Converts a full file name to a path that can be used by <tt>render :partial</tt>.
     #
+    # Optionally removes string(s) from the returned path.
+    #
     def filename_to_partial(file, remove=nil) #:doc:
       base = File.basename file
       dir  = File.dirname file
@@ -159,7 +161,7 @@ module RailsWidget
       end
     end
 
-    # Assigns <tt>@options</tt> to the hash in <tt>options.rb</tt> (if it exists).
+    # Assigns the hash in <tt>options.rb</tt> (if it exists) to <tt>@options</tt>.
     #
     def update_options(path=@path, empty=false) #:doc:
       path = to_path :options, path
