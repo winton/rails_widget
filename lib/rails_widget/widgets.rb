@@ -3,7 +3,7 @@ module RailsWidget
   # See <tt>RailsWidget</tt>.
   #
   def widget(*path)
-    @assets  ||= Assets.new  binding, controller
+    @assets  ||= Assets.new  binding, controller, logger
     @widgets ||= Widgets.new @assets, binding, controller, logger
     options = path.extract_options!
     @widgets.build path, options
@@ -13,6 +13,7 @@ module RailsWidget
   #
   # ==== Example
   #   <%= flash_path :some, :widget, 'flash.swf' %>
+  #   # => 'app/widgets/some/widget/flash/flash.swf'
   #
   def flash_path(*path)
     flash = path.pop
@@ -22,7 +23,8 @@ module RailsWidget
   # Returns an image tag for a image asset.
   #
   # ==== Example
-  #   <%= image :some, :widget, 'image.png' %>
+  #   <%= image :some, :widget, 'image.png', :border => 0 %>
+  #   # => '<img src="app/widgets/some/widget/images/image.png" border=0 />'
   #
   def image(*path)
     options = path.extract_options!
@@ -34,6 +36,7 @@ module RailsWidget
   #
   # ==== Example
   #   <%= image_path :some, :widget, 'image.png' %>
+  #   # => 'app/widgets/some/widget/images/image.png'
   #
   def image_path(*path)
     image = path.pop
@@ -43,7 +46,8 @@ module RailsWidget
   # Renders a partial asset.
   #
   # ==== Example
-  #   <%= partial :some, :widget, 'image.png' %>
+  #   <%= partial :some, :widget, 'partial', :locals => { :x => true } %>
+  #   # => render :partial => 'app/widgets/some/widget/partials/partial', :locals => { :x => true }
   #
   def partial(*path)
     options = path.extract_options!
@@ -91,7 +95,7 @@ module RailsWidget
     #
     # ==== Example
     #   w.build([ :some, :widget ], { :option1 => true })
-    #     # => [ #<Widget>, #<Widget>, #<Widget> ], { :option1 => true, :option2 => true }
+    #   # => [ #<Widget>, #<Widget>, #<Widget> ], { :option1 => true, :option2 => true }
     #
     # (See the <tt>related_paths</tt> example for context.)
     #
@@ -117,7 +121,7 @@ module RailsWidget
         @assets.javascripts *(js  + [ :cache => w.cache ]) unless js.empty?
         @assets.stylesheets *(css + [ :cache => w.cache ]) unless css.empty?
         @assets.templates   *(w.assets[:templates].collect do |t|
-          [ File.basename(t), t, options.merge(:options => options) ]
+          { :id => File.basename(t), :partial => t, :locals => options.merge(:options => options) }
         end) unless w.assets[:templates].empty?
       end
     end
@@ -139,10 +143,10 @@ module RailsWidget
         else
           @assets.stylesheets do
             css
-          end
+          end unless css.empty?
           @assets.javascripts do
             js
-          end
+          end unless js.empty?
           partial
         end
       end
@@ -154,7 +158,7 @@ module RailsWidget
     #
     # ==== Example
     #   related_paths([ :some, :widget ])
-    #     # => [ 'some', 'widget', 'some/widget' ]
+    #   # => [ 'some', 'widget', 'some/widget' ]
     #
     # Options are merged based on the order of the array that <tt>related_paths</tt> returns:
     #   app/widgets/some/options.rb         # { :option1 => true, :option2 => false }

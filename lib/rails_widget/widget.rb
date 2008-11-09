@@ -95,7 +95,7 @@ module RailsWidget
     #
     def render_init(type, options=@options)
       @rendered[type] ||= {}
-      return nil if @rendered[type][options[:id]]
+      #return nil if @rendered[type][options[:id]]
       @rendered[type][options[:id]] = true
 
       @assets["init_#{type}".intern].collect do |f|
@@ -154,7 +154,7 @@ module RailsWidget
       from = from[0] if from.respond_to?(:pop)
       from = File.directory?(from) ? "#{from}/*" : "#{from}.*"
       Dir[from].sort.each do |f|
-        next if type == :javascripts && File.basename(f) == 'init.js'
+        next if (type == :javascripts || type == :stylesheets) && File.basename(f)[0..3] == 'init'
         @assets[type] << (type == :templates ? filename_to_partial(f, 'app/widgets/') : f)
       end
     end

@@ -329,17 +329,17 @@ File: rails_widget.rb
 
 <div id="description"><p>
 <a href="../../classes/RailsWidget.html">RailsWidget</a> allows you to
-group your client-side assets into distributable &quot;widgets&quot;.
+group your client-side assets into distributable &quot;widgets&quot;
 </p>
 <ul>
-<li>Attach assets and render partials with a single <tt>widget</tt> call.
+<li>Attach assets and render partials with a single <tt>widget</tt> call
 
 </li>
-<li>Configure widgets via an <tt>options.rb</tt> file.
+<li>Configure widgets via an <tt>options.rb</tt> file
 
 </li>
-<li>Supported assets: flash, images, partials, javascripts, stylesheets, and
-textarea templates
+<li>Supports flash, images, javascripts, partials, stylesheets, and textarea
+templates
 
 </li>
 </ul>
@@ -354,6 +354,8 @@ make a widget called <tt>alert</tt>.
     widgets/
       alert/
         options.rb
+        flash/
+        images/
         javascripts/
           alert.js
           init.js
@@ -362,10 +364,10 @@ make a widget called <tt>alert</tt>.
         stylesheets/
           init.css
           style.css
+        templates/
 </pre>
 <p>
-<b>Init files are special.</b> They are erb-rendered directly to the page
-(dynamic).
+<b>Init</b> files are erb-rendered directly to the page (dynamic, inline).
 </p>
 <h4>options.rb</h4>
 <pre>
@@ -436,6 +438,7 @@ make a widget called <tt>alert</tt>.
     &lt;/body&gt;
   &lt;/html&gt;
 </pre>
+<h2>Inheritance</h2>
 </div>
 
 

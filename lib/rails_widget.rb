@@ -2,7 +2,7 @@
 #
 # * Attach assets and render partials with a single <tt>widget</tt> call
 # * Configure widgets via an <tt>options.rb</tt> file
-# * Supported assets: flash, images, partials, javascripts, stylesheets, and textarea templates
+# * Supports flash, images, javascripts, partials, stylesheets, and textarea templates
 #
 # == Example
 # === What is a widget?
@@ -12,6 +12,8 @@
 #     widgets/
 #       alert/
 #         options.rb
+#         flash/
+#         images/
 #         javascripts/
 #           alert.js
 #           init.js
@@ -20,8 +22,9 @@
 #         stylesheets/
 #           init.css
 #           style.css
+#         templates/
 #
-# <b>Init files are special.</b> They are erb-rendered directly to the page (dynamic).
+# <b>Init</b> files are rendered directly into the layout (inline, dynamically generated).
 #
 # ==== options.rb
 #   { :id => 'alert', :message => 'Hello world!', :color => 'red' }
@@ -83,6 +86,8 @@
 #       </div>
 #     </body>
 #   </html>
+#
+# == Inheritance
 #
 module RailsWidget
 end

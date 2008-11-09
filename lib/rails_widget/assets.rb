@@ -35,7 +35,7 @@ module RailsWidget
   # The method accepts all options supported by <tt>javascript_include_tag</tt>.
   #
   def javascripts(*paths, &block)
-    @assets ||= Assets.new binding, controller
+    @assets ||= Assets.new binding, controller, logger
     @assets.javascripts *paths, &block
   end
   
@@ -69,7 +69,7 @@ module RailsWidget
   # The method accepts all options supported by <tt>stylesheet_link_tag</tt>.
   #
   def stylesheets(*paths, &block)
-    @assets ||= Assets.new binding, controller
+    @assets ||= Assets.new binding, controller, logger
     @assets.stylesheets *paths, &block
   end
   
@@ -108,127 +108,108 @@ module RailsWidget
   #
   # Calling <tt>templates</tt> without parameters renders the assets in the order they were added.
   #
-  def templates(*paths, &block)
-    @assets ||= Assets.new binding, controller
-    @assets.templates *paths, &block
+  def templates(*options, &block)
+    @assets ||= Assets.new binding, controller, logger
+    @assets.templates *options, &block
   end
   
   class Assets
     attr :assets, true
-    attr :block,  true
-    attr :item,   true
     
-    def initialize(bind, controller)
+    # Used for eval access
+    attr :block,   true
+    attr :params,  true
+    attr :options, true
+    
+    def initialize(bind, controller, logger)
+      @assets = {}
       @bind = bind
       @controller = controller
-      @assets = {}
+      @logger = logger
+    end
+    
+    def javascripts(*params, &block)
+      add_assets :javascripts, params, &block
     end
   
-    def javascripts(*paths, &block)
-      add_assets :javascripts, paths, &block
+    def stylesheets(*params, &block)
+      add_assets :stylesheets, params, &block
     end
   
-    def stylesheets(*paths, &block)
-      add_assets :stylesheets, paths, &block
-    end
-  
-    def templates(*paths, &block)
-      add_assets :templates, paths, &block
+    def templates(*params, &block)
+      add_assets :templates, params, &block
     end
     
     private
     
-    def add_assets(type, paths, &block)
-      @assets[type] ||= []
-      options = paths.extract_options! unless type == :templates
-      
-      if paths.empty?
-        paths = nil 
-      else
-        paths.flatten!
-        paths.push options unless type == :templates
-        @assets[type].push paths
-      end
-      
-      if block
-        @block  = block
-        capture = eval "capture(&@assets.block)", @bind
-        if type == :templates && !paths.empty?
-          @assets[type].last.push capture
-        else
-          @assets[type].push capture
-        end
-      end
-    
-      if !paths && !block
-        @assets[type].uniq!
-        remove_dups @assets[type]
-        unless type == :templates
-          @assets[type].collect! { |a| a[0].respond_to?(:keys) ? nil : a }
-          @assets[type].compact!
-        end
-        
-        css = []
-        js  = []
-        assets = @assets[type].collect do |item|
-          if item.respond_to?(:pop)
-            @item = item
-            case type
-            when :javascripts
-              eval "javascript_include_tag *@assets.item", @bind
-            when :stylesheets
-              eval "stylesheet_link_tag    *@assets.item", @bind
-            when :templates
-              item.each_index do |x|
-                @item = item[x]
-                next if @item.respond_to?(:gsub)
-                n = item[x + 1]
-                @item[:body] = n if n.respond_to?(:gsub)
-                eval "textarea_template @assets.item", @bind
-              end
-            end + "\n"
-          else
-            case type
-            when :javascripts
-              js.push(item)  unless item.blank?
-              nil
-            when :stylesheets
-              css.push(item) unless item.blank?
-              nil
-            when :templates
-              @item = { :body => item }
-              eval "textarea_template @assets.item", @bind
-            else
-              item
+    def add_assets(type, params, &block)
+      options = params.extract_options! unless type == :templates
+      capture = block_to_string &block
+      asset   = delete_if_empty(:options => options, :params => params, :capture => capture)
+      if asset.empty?
+        remove_dups :javascripts, :params
+        remove_dups :stylesheets, :params, :capture
+        remove_dups :templates,   :params, :capture
+        captures = []
+        tags     = []
+        @assets[type].each do |item|
+          @capture = item[:capture]
+          @params  = item[:params]
+          case type
+          when :javascripts
+            captures.push(@capture) if @capture
+            tags.push(eval("javascript_include_tag *[ @assets.params, @assets.options ].flatten.compact", @bind)) if @params
+          when :stylesheets
+            captures.push(@capture) if @capture
+            tags.push(eval("stylesheet_link_tag    *[ @assets.params, @assets.options ].flatten.compact", @bind)) if @params
+          when :templates
+            captures.push(textarea_template(@params.pop.merge(:body => @capture))) if @capture
+            @params.each do |options|
+              captures << textarea_template(options)
             end
           end
-        end.compact
-        if type == :javascripts
-          assets.join + "<script type='text/javascript'>\n#{js.join "\n"}\n</script>"
-        elsif type == :javascripts
-          assets.join + "<style type='text/css'>\n#{css.join "\n"}\n</style>"
-        else
-          assets.join
         end
+        case type
+        when :javascripts
+          tags.join("\n") + "\n<script type='text/javascript'>\n#{captures.join "\n"}\n</script>"
+        when :stylesheets
+          tags.join("\n") + "\n<style type='text/css'>\n#{captures.join "\n"}\n</style>"
+        when :templates
+          captures.uniq.join "\n"
+        end
+      else
+        @assets[type] ||= []
+        @assets[type].push asset
       end
     end
     
-    def remove_dups(arr, list=[])
-      arr.dup.each do |a|
-        if a.respond_to?(:keys)
-          next
-        elsif a.respond_to?(:pop)
-          remove_dups a, list
-        else
-          if list.include?(a) || a.blank?
-            arr.delete_at arr.rindex(a)
+    def block_to_string(&block)
+      return nil unless block
+      @block = block
+      eval "capture(&@assets.block)", @bind
+    end
+    
+    def delete_if_empty(hash)
+      list = []
+      hash.each { |key, value| list.push(key) if !value || value.empty? || value.blank? }
+      list.each { |key|        hash.delete key }
+      hash
+    end
+    
+    def remove_dups(asset_type, *types)
+      asset = @assets[asset_type]
+      types.each do |type|
+        list = []
+        asset.each do |a|
+          if list.include?(a[type])
+            a.delete type
           else
-            list << a
+            list << a[type]
           end
         end
-      end
+      end if asset
     end
-  
+    
     def textarea_template(options)
       id = 'template' + (options[:id] ? "_#{options[:id]}" : '')
       if options[:body]
@@ -236,6 +217,7 @@ module RailsWidget
       elsif options[:partial]
         body = @controller.render_to_string :partial => options[:partial], :locals => options[:locals]
       end
+      return nil unless body
       "<textarea id='#{id}' style='display:none'>\n#{body}\n</textarea>" 
     end
   end

@@ -400,20 +400,19 @@ widget<br/>
 
 <div id="description"><p>
 <a href="RailsWidget.html">RailsWidget</a> allows you to group your
-client-side assets into distributable &quot;widgets&quot;.
+client-side assets into distributable &quot;widgets&quot;
 </p>
 <ul>
 <li>Attach assets and render partials with a single <tt><a
-href="RailsWidget.html#M000004">widget</a></tt> call.
+href="RailsWidget.html#M000004">widget</a></tt> call
 
 </li>
-<li>Configure widgets via an <tt>options.rb</tt> file.
+<li>Configure widgets via an <tt>options.rb</tt> file
 
 </li>
-<li>Supported assets: flash, images, partials, <a
-href="RailsWidget.html#M000001">javascripts</a>, <a
-href="RailsWidget.html#M000002">stylesheets</a>, and textarea <a
-href="RailsWidget.html#M000003">templates</a>
+<li>Supports flash, images, <a href="RailsWidget.html#M000001">javascripts</a>,
+partials, <a href="RailsWidget.html#M000002">stylesheets</a>, and textarea
+<a href="RailsWidget.html#M000003">templates</a>
 
 </li>
 </ul>
@@ -429,6 +428,8 @@ href="RailsWidget.html#M000004">widget</a> called <tt>alert</tt>.
     widgets/
       alert/
         options.rb
+        flash/
+        images/
         javascripts/
           alert.js
           init.js
@@ -437,10 +438,10 @@ href="RailsWidget.html#M000004">widget</a> called <tt>alert</tt>.
         stylesheets/
           init.css
           style.css
+        templates/
 </pre>
 <p>
-<b>Init files are special.</b> They are erb-rendered directly to the page
-(dynamic).
+<b>Init</b> files are erb-rendered directly to the page (dynamic, inline).
 </p>
 <h4>options.rb</h4>
 <pre>
@@ -511,6 +512,7 @@ href="RailsWidget.html#M000004">widget</a> called <tt>alert</tt>.
     &lt;/body&gt;
   &lt;/html&gt;
 </pre>
+<h2>Inheritance</h2>
 </div>
 
 
@@ -547,9 +549,10 @@ Returns a path for a flash asset.
 <h4>Example</h4>
 <pre>
   &lt;%= flash_path :some, :widget, 'flash.swf' %&gt;
+  # =&gt; 'app/widgets/some/widget/flash/flash.swf'
 </pre>
 
-<p class="source_link" id="M000005-show-link"><a onclick="toggle('M000005-source'); toggleText('M000005-link'); return false;" href="#" id="M000005-link">Show source...</a></p><div class="source" id="M000005-source"><pre><span class="ruby-comment cmt"># File lib/rails_widget/widgets.rb, line 17</span>
+<p class="source_link" id="M000005-show-link"><a onclick="toggle('M000005-source'); toggleText('M000005-link'); return false;" href="#" id="M000005-link">Show source...</a></p><div class="source" id="M000005-source"><pre><span class="ruby-comment cmt"># File lib/rails_widget/widgets.rb, line 18</span>
   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">flash_path</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">path</span>)
     <span class="ruby-identifier">flash</span> = <span class="ruby-identifier">path</span>.<span class="ruby-identifier">pop</span>
     <span class="ruby-node">&quot;/flash/widgets/#{path.join('/')}/#{flash}&quot;</span>
@@ -573,10 +576,11 @@ href="RailsWidget.html#M000006">image</a> asset.
 </p>
 <h4>Example</h4>
 <pre>
-  &lt;%= image :some, :widget, 'image.png' %&gt;
+  &lt;%= image :some, :widget, 'image.png', :border =&gt; 0 %&gt;
+  # =&gt; '&lt;img src=&quot;app/widgets/some/widget/images/image.png&quot; border=0 /&gt;'
 </pre>
 
-<p class="source_link" id="M000006-show-link"><a onclick="toggle('M000006-source'); toggleText('M000006-link'); return false;" href="#" id="M000006-link">Show source...</a></p><div class="source" id="M000006-source"><pre><span class="ruby-comment cmt"># File lib/rails_widget/widgets.rb, line 27</span>
+<p class="source_link" id="M000006-show-link"><a onclick="toggle('M000006-source'); toggleText('M000006-link'); return false;" href="#" id="M000006-link">Show source...</a></p><div class="source" id="M000006-source"><pre><span class="ruby-comment cmt"># File lib/rails_widget/widgets.rb, line 29</span>
   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">image</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">path</span>)
     <span class="ruby-identifier">options</span> = <span class="ruby-identifier">path</span>.<span class="ruby-identifier">extract_options!</span>
     <span class="ruby-identifier">image</span> = <span class="ruby-identifier">path</span>.<span class="ruby-identifier">pop</span>
@@ -602,9 +606,10 @@ href="RailsWidget.html#M000006">image</a> asset.
 <h4>Example</h4>
 <pre>
   &lt;%= image_path :some, :widget, 'image.png' %&gt;
+  # =&gt; 'app/widgets/some/widget/images/image.png'
 </pre>
 
-<p class="source_link" id="M000007-show-link"><a onclick="toggle('M000007-source'); toggleText('M000007-link'); return false;" href="#" id="M000007-link">Show source...</a></p><div class="source" id="M000007-source"><pre><span class="ruby-comment cmt"># File lib/rails_widget/widgets.rb, line 38</span>
+<p class="source_link" id="M000007-show-link"><a onclick="toggle('M000007-source'); toggleText('M000007-link'); return false;" href="#" id="M000007-link">Show source...</a></p><div class="source" id="M000007-source"><pre><span class="ruby-comment cmt"># File lib/rails_widget/widgets.rb, line 41</span>
   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">image_path</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">path</span>)
     <span class="ruby-identifier">image</span> = <span class="ruby-identifier">path</span>.<span class="ruby-identifier">pop</span>
     <span class="ruby-node">&quot;/images/widgets/#{path.join('/')}/#{image}&quot;</span>
@@ -691,10 +696,11 @@ Renders a <a href="RailsWidget.html#M000008">partial</a> asset.
 </p>
 <h4>Example</h4>
 <pre>
-  &lt;%= partial :some, :widget, 'image.png' %&gt;
+  &lt;%= partial :some, :widget, 'partial', :locals =&gt; { :x =&gt; true } %&gt;
+  # =&gt; render :partial =&gt; 'app/widgets/some/widget/partials/partial', :locals =&gt; { :x =&gt; true }
 </pre>
 
-<p class="source_link" id="M000008-show-link"><a onclick="toggle('M000008-source'); toggleText('M000008-link'); return false;" href="#" id="M000008-link">Show source...</a></p><div class="source" id="M000008-source"><pre><span class="ruby-comment cmt"># File lib/rails_widget/widgets.rb, line 48</span>
+<p class="source_link" id="M000008-show-link"><a onclick="toggle('M000008-source'); toggleText('M000008-link'); return false;" href="#" id="M000008-link">Show source...</a></p><div class="source" id="M000008-source"><pre><span class="ruby-comment cmt"># File lib/rails_widget/widgets.rb, line 52</span>
   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">partial</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">path</span>)
     <span class="ruby-identifier">options</span> = <span class="ruby-identifier">path</span>.<span class="ruby-identifier">extract_options!</span>
     <span class="ruby-identifier">partial</span> = <span class="ruby-identifier">path</span>.<span class="ruby-identifier">pop</span>
