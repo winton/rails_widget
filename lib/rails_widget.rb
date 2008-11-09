@@ -1,13 +1,15 @@
 # RailsWidget allows you to group your client-side assets into distributable "widgets".
 #
-# * Include assets and render partials into your layout with a single <tt>widget</tt> call
-# * Share a common options hash between all of your renderable assets
-# * Widgets are inheritable
-# * Also supports flash, images, javascripts, stylesheets, and textarea template (jst) assets
+# * Include assets and render partials to layout with a single <tt>widget</tt> call
+# * Share a common options hash between all of your rendered assets
+# * Supports flash, images, javascripts, stylesheets, and textarea template (jst) assets
+# * Widgets can inherit
 #
-# Install your first widget <http://github.com/winton/rails_widget/wikis>.
+# === Getting started
 #
-# More documentation can be found on our github wiki <http://github.com/winton/rails_widget/wikis>.
+# Visit the github wiki for more on installing and creating widgets.
+#
+# http://github.com/winton/rails_widget/wikis
 #
 module RailsWidget
 end
