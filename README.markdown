@@ -8,6 +8,8 @@ Allows you to group your client-side assets into distributable "widgets".
 * Supports flash, images, javascripts, stylesheets, and textarea template (jst) assets
 * Widgets can inherit
 
+You can also use it to organize your assets however you like (layout, action, etc).
+
 
 Install
 -------
@@ -21,6 +23,3 @@ Getting started
 ---------------
 
 [Visit the wiki](http://github.com/winton/rails_widget/wikis) for more on installing and creating widgets.
-
-
-##### Copyright &copy; 2008 [Winton Welsh](mailto:mail@wintoni.us), released under the MIT license

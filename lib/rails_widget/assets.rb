@@ -186,9 +186,9 @@ module RailsWidget
         end
         case type
         when :javascripts
-          tags.join("\n") + "\n<script type='text/javascript'>\n#{captures.join "\n"}\n</script>"
+          tags.join("\n") + (captures.empty? ? '' : "\n<script type='text/javascript'>\n#{captures.join "\n"}\n</script>")
         when :stylesheets
-          tags.join("\n") + "\n<style type='text/css'>\n#{captures.join "\n"}\n</style>"
+          tags.join("\n") + (captures.empty? ? '' : "\n<style type='text/css'>\n#{captures.join "\n"}\n</style>")
         when :templates
           captures.uniq.join "\n"
         end

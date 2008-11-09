@@ -572,9 +572,9 @@ type.
         <span class="ruby-keyword kw">end</span>
         <span class="ruby-keyword kw">case</span> <span class="ruby-identifier">type</span>
         <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:javascripts</span>
-          <span class="ruby-identifier">tags</span>.<span class="ruby-identifier">join</span>(<span class="ruby-value str">&quot;\n&quot;</span>) <span class="ruby-operator">+</span> <span class="ruby-node">&quot;\n&lt;script type='text/javascript'&gt;\n#{captures.join &quot;\n&quot;}\n&lt;/script&gt;&quot;</span>
+          <span class="ruby-identifier">tags</span>.<span class="ruby-identifier">join</span>(<span class="ruby-value str">&quot;\n&quot;</span>) <span class="ruby-operator">+</span> (<span class="ruby-identifier">captures</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-value">? </span><span class="ruby-value str">''</span> <span class="ruby-operator">:</span> <span class="ruby-node">&quot;\n&lt;script type='text/javascript'&gt;\n#{captures.join &quot;\n&quot;}\n&lt;/script&gt;&quot;</span>)
         <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:stylesheets</span>
-          <span class="ruby-identifier">tags</span>.<span class="ruby-identifier">join</span>(<span class="ruby-value str">&quot;\n&quot;</span>) <span class="ruby-operator">+</span> <span class="ruby-node">&quot;\n&lt;style type='text/css'&gt;\n#{captures.join &quot;\n&quot;}\n&lt;/style&gt;&quot;</span>
+          <span class="ruby-identifier">tags</span>.<span class="ruby-identifier">join</span>(<span class="ruby-value str">&quot;\n&quot;</span>) <span class="ruby-operator">+</span> (<span class="ruby-identifier">captures</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-value">? </span><span class="ruby-value str">''</span> <span class="ruby-operator">:</span> <span class="ruby-node">&quot;\n&lt;style type='text/css'&gt;\n#{captures.join &quot;\n&quot;}\n&lt;/style&gt;&quot;</span>)
         <span class="ruby-keyword kw">when</span> <span class="ruby-identifier">:templates</span>
           <span class="ruby-identifier">captures</span>.<span class="ruby-identifier">uniq</span>.<span class="ruby-identifier">join</span> <span class="ruby-value str">&quot;\n&quot;</span>
         <span class="ruby-keyword kw">end</span>
