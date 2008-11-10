@@ -127,11 +127,12 @@ module RailsWidget
         w.copy_assets
         js  = w.asset_paths :javascripts
         css = w.asset_paths :stylesheets
+        jst = w.asset_paths :templates
         @assets.javascripts *(js  + [ :cache => w.cache ]) unless js.empty?
         @assets.stylesheets *(css + [ :cache => w.cache ]) unless css.empty?
-        @assets.templates   *(w.assets[:templates].collect do |t|
+        @assets.templates   *(jst.collect do |t|
           { :id => File.basename(t), :partial => t, :locals => options.merge(:options => options) }
-        end) unless w.assets[:templates].empty?
+        end) unless jst.empty?
       end
     end
     
