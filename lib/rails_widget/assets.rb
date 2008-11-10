@@ -185,7 +185,7 @@ module RailsWidget
               captures << textarea_template(options)
             end
           end
-        end
+        end if @assets[type]
         case type
         when :javascripts
           tags.join("\n") + (captures.empty? ? '' : "\n<script type='text/javascript'>\n#{captures.join "\n"}\n</script>")
