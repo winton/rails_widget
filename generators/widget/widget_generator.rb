@@ -1,3 +1,6 @@
+# ==== Example
+#   script/generate widget widget_name
+#
 class WidgetGenerator < Rails::Generator::Base 
   def manifest
     name   = args.shift.underscore
