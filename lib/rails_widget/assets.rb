@@ -183,7 +183,7 @@ module RailsWidget
             captures.push(textarea_template(@params.pop.merge(:body => @capture))) if @capture
             @params.each do |options|
               captures << textarea_template(options)
-            end
+            end if @params
           end
         end if @assets[type]
         case type

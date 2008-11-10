@@ -9,6 +9,15 @@ module RailsWidget
     @widgets.build path, options
   end
   
+  # See <tt>RailsWidget</tt>.
+  #
+  def include_widget(*path)
+    @assets  ||= Assets.new  binding, controller, logger
+    @widgets ||= Widgets.new @assets, binding, controller, logger
+    options = path.extract_options!
+    @widgets.build path, options, false
+  end
+  
   # Returns a path for a flash asset.
   #
   # ==== Example
@@ -82,11 +91,11 @@ module RailsWidget
     
     # See <tt>widget (RailsWidget)</tt>.
     #
-    def build(path=[''], options={})
+    def build(path=[''], options={}, render=true)
       widgets, opts = instanciate path
-      options = opts.merge options        # Merge the options parameter (highest precedence)
+      options = opts.merge options # Merge the options parameter last (highest precedence)
       add_static_assets  widgets, options
-      return_init_assets widgets, options # Returns the init partial to <tt>widget (RailsWidget)</tt>
+      return_init_assets(widgets, options) if render # Returns the init partial to <tt>widget (RailsWidget)</tt>
     end
     
     # Creates Widget instances for the widget path and its <tt>related_paths</tt> if they do not already exist.
