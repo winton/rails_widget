@@ -152,9 +152,11 @@ module RailsWidget
     
     private
     
-    # Adds assets and returns layout HTML.
+    # Either adds assets or returns layout HTML.
     #
-    # If no params or block are given, HTML is returned for the specified asset type.
+    # Assets are added if a parameter or block is given.
+    #
+    # HTML is returned for the specified asset type if no parameters or block given.
     #
     def add_assets(type, params, &block) #:doc:
       options = params.extract_options! unless type == :templates
@@ -198,34 +200,44 @@ module RailsWidget
       end
     end
     
-    def block_to_string(&block)
+    # Runs Rails' capture method on a block and returns the result.
+    #
+    def block_to_string(&block) #:doc:
       return nil unless block
       @block = block
       eval "capture(&@assets.block)", @bind
     end
     
-    def delete_if_empty(hash)
+    # Delete any keys that have nil, empty, or blank values.
+    #
+    def delete_if_empty(hash) #:doc:
       list = []
       hash.each { |key, value| list.push(key) if !value || value.empty? || value.blank? }
       list.each { |key|        hash.delete key }
       hash
     end
     
-    def remove_dups(asset_type, *types)
-      asset = @assets[asset_type]
-      types.each do |type|
+    # Removes duplicate asset values of a specific asset type and key.
+    #
+    def remove_dups(type, *keys) #:doc:
+      asset = @assets[type]
+      keys.each do |key|
         list = []
         asset.each do |a|
-          if list.include?(a[type])
-            a.delete type
+          if list.include?(a[key])
+            a.delete key
           else
-            list << a[type]
+            list << a[key]
           end
         end
       end if asset
     end
     
-    def textarea_template(options)
+    # See <tt>templates (RailsWidget)</tt>.
+    #
+    # Takes options from the templates call and makes HTML out of it.
+    #
+    def textarea_template(options) #:doc:
       id = 'template' + (options[:id] ? "_#{options[:id]}" : '')
       if options[:body]
         body = options[:body]

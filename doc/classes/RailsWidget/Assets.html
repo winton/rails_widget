@@ -342,6 +342,20 @@ add_assets<br/>
 
 
 
+<a href='#M000014'>
+block_to_string<br/>
+</a>
+
+
+
+
+<a href='#M000015'>
+delete_if_empty<br/>
+</a>
+
+
+
+
 <a href='#M000010'>
 javascripts<br/>
 </a>
@@ -356,6 +370,13 @@ new<br/>
 
 
 
+<a href='#M000016'>
+remove_dups<br/>
+</a>
+
+
+
+
 <a href='#M000011'>
 stylesheets<br/>
 </a>
@@ -365,6 +386,13 @@ stylesheets<br/>
 
 <a href='#M000012'>
 templates<br/>
+</a>
+
+
+
+
+<a href='#M000017'>
+textarea_template<br/>
 </a>
 
 
@@ -534,14 +562,18 @@ add_assets
 </a>
 </h3>
 <p>
-Adds assets and returns layout HTML.
+Either adds assets or returns layout HTML.
 </p>
 <p>
-If no params or block are given, HTML is returned for the specified asset
-type.
+<a href="Assets.html">Assets</a> are added if a parameter or block is
+given.
+</p>
+<p>
+HTML is returned for the specified asset type if no parameters or block
+given.
 </p>
 
-<p class="source_link" id="M000013-show-link"><a onclick="toggle('M000013-source'); toggleText('M000013-link'); return false;" href="#" id="M000013-link">Show source...</a></p><div class="source" id="M000013-source"><pre><span class="ruby-comment cmt"># File lib/rails_widget/assets.rb, line 159</span>
+<p class="source_link" id="M000013-show-link"><a onclick="toggle('M000013-source'); toggleText('M000013-link'); return false;" href="#" id="M000013-link">Show source...</a></p><div class="source" id="M000013-source"><pre><span class="ruby-comment cmt"># File lib/rails_widget/assets.rb, line 161</span>
     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">add_assets</span>(<span class="ruby-identifier">type</span>, <span class="ruby-identifier">params</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>) <span class="ruby-comment cmt">#:doc:</span>
       <span class="ruby-identifier">options</span> = <span class="ruby-identifier">params</span>.<span class="ruby-identifier">extract_options!</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">type</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">:templates</span>
       <span class="ruby-identifier">capture</span> = <span class="ruby-identifier">block_to_string</span> <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>
@@ -582,6 +614,117 @@ type.
         <span class="ruby-ivar">@assets</span>[<span class="ruby-identifier">type</span>] <span class="ruby-operator">||=</span> []
         <span class="ruby-ivar">@assets</span>[<span class="ruby-identifier">type</span>].<span class="ruby-identifier">push</span> <span class="ruby-identifier">asset</span>
       <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">end</span></pre></div>
+</div>
+
+<a class="small" name="M000014"><br/></a>
+<div class="method_block"><h3>
+<a href='#M000014'>
+
+
+block_to_string
+
+(&amp;block)
+
+</a>
+</h3>
+<p>
+Runs Rails&#8217; capture method on a block and returns the result.
+</p>
+
+<p class="source_link" id="M000014-show-link"><a onclick="toggle('M000014-source'); toggleText('M000014-link'); return false;" href="#" id="M000014-link">Show source...</a></p><div class="source" id="M000014-source"><pre><span class="ruby-comment cmt"># File lib/rails_widget/assets.rb, line 205</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">block_to_string</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>) <span class="ruby-comment cmt">#:doc:</span>
+      <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">nil</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">block</span>
+      <span class="ruby-ivar">@block</span> = <span class="ruby-identifier">block</span>
+      <span class="ruby-identifier">eval</span> <span class="ruby-value str">&quot;capture(&amp;@assets.block)&quot;</span>, <span class="ruby-ivar">@bind</span>
+    <span class="ruby-keyword kw">end</span></pre></div>
+</div>
+
+<a class="small" name="M000015"><br/></a>
+<div class="method_block"><h3>
+<a href='#M000015'>
+
+
+delete_if_empty
+
+(hash)
+
+</a>
+</h3>
+<p>
+Delete any keys that have nil, empty, or blank values.
+</p>
+
+<p class="source_link" id="M000015-show-link"><a onclick="toggle('M000015-source'); toggleText('M000015-link'); return false;" href="#" id="M000015-link">Show source...</a></p><div class="source" id="M000015-source"><pre><span class="ruby-comment cmt"># File lib/rails_widget/assets.rb, line 213</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">delete_if_empty</span>(<span class="ruby-identifier">hash</span>) <span class="ruby-comment cmt">#:doc:</span>
+      <span class="ruby-identifier">list</span> = []
+      <span class="ruby-identifier">hash</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span> <span class="ruby-identifier">list</span>.<span class="ruby-identifier">push</span>(<span class="ruby-identifier">key</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">value</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">value</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">value</span>.<span class="ruby-identifier">blank?</span> }
+      <span class="ruby-identifier">list</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">key</span><span class="ruby-operator">|</span>        <span class="ruby-identifier">hash</span>.<span class="ruby-identifier">delete</span> <span class="ruby-identifier">key</span> }
+      <span class="ruby-identifier">hash</span>
+    <span class="ruby-keyword kw">end</span></pre></div>
+</div>
+
+<a class="small" name="M000016"><br/></a>
+<div class="method_block"><h3>
+<a href='#M000016'>
+
+
+remove_dups
+
+(type, *keys)
+
+</a>
+</h3>
+<p>
+Removes duplicate asset values of a specific asset type and key.
+</p>
+
+<p class="source_link" id="M000016-show-link"><a onclick="toggle('M000016-source'); toggleText('M000016-link'); return false;" href="#" id="M000016-link">Show source...</a></p><div class="source" id="M000016-source"><pre><span class="ruby-comment cmt"># File lib/rails_widget/assets.rb, line 222</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">remove_dups</span>(<span class="ruby-identifier">type</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">keys</span>) <span class="ruby-comment cmt">#:doc:</span>
+      <span class="ruby-identifier">asset</span> = <span class="ruby-ivar">@assets</span>[<span class="ruby-identifier">type</span>]
+      <span class="ruby-identifier">keys</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span><span class="ruby-operator">|</span>
+        <span class="ruby-identifier">list</span> = []
+        <span class="ruby-identifier">asset</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">a</span><span class="ruby-operator">|</span>
+          <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">list</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-identifier">a</span>[<span class="ruby-identifier">key</span>])
+            <span class="ruby-identifier">a</span>.<span class="ruby-identifier">delete</span> <span class="ruby-identifier">key</span>
+          <span class="ruby-keyword kw">else</span>
+            <span class="ruby-identifier">list</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">a</span>[<span class="ruby-identifier">key</span>]
+          <span class="ruby-keyword kw">end</span>
+        <span class="ruby-keyword kw">end</span>
+      <span class="ruby-keyword kw">end</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">asset</span>
+    <span class="ruby-keyword kw">end</span></pre></div>
+</div>
+
+<a class="small" name="M000017"><br/></a>
+<div class="method_block"><h3>
+<a href='#M000017'>
+
+
+textarea_template
+
+(options)
+
+</a>
+</h3>
+<p>
+See <tt><a href="Assets.html#M000012">templates</a> (<a
+href="../RailsWidget.html">RailsWidget</a>)</tt>.
+</p>
+<p>
+Takes options from the <a href="Assets.html#M000012">templates</a> call and
+makes HTML out of it.
+</p>
+
+<p class="source_link" id="M000017-show-link"><a onclick="toggle('M000017-source'); toggleText('M000017-link'); return false;" href="#" id="M000017-link">Show source...</a></p><div class="source" id="M000017-source"><pre><span class="ruby-comment cmt"># File lib/rails_widget/assets.rb, line 240</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">textarea_template</span>(<span class="ruby-identifier">options</span>) <span class="ruby-comment cmt">#:doc:</span>
+      <span class="ruby-identifier">id</span> = <span class="ruby-value str">'template'</span> <span class="ruby-operator">+</span> (<span class="ruby-identifier">options</span>[<span class="ruby-identifier">:id</span>] <span class="ruby-operator">?</span> <span class="ruby-node">&quot;_#{options[:id]}&quot;</span> <span class="ruby-operator">:</span> <span class="ruby-value str">''</span>)
+      <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">options</span>[<span class="ruby-identifier">:body</span>]
+        <span class="ruby-identifier">body</span> = <span class="ruby-identifier">options</span>[<span class="ruby-identifier">:body</span>]
+      <span class="ruby-keyword kw">elsif</span> <span class="ruby-identifier">options</span>[<span class="ruby-identifier">:partial</span>]
+        <span class="ruby-identifier">body</span> = <span class="ruby-ivar">@controller</span>.<span class="ruby-identifier">render_to_string</span> <span class="ruby-identifier">:partial</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">options</span>[<span class="ruby-identifier">:partial</span>], <span class="ruby-identifier">:locals</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">options</span>[<span class="ruby-identifier">:locals</span>]
+      <span class="ruby-keyword kw">end</span>
+      <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">nil</span> <span class="ruby-keyword kw">unless</span> <span class="ruby-identifier">body</span>
+      <span class="ruby-node">&quot;&lt;textarea id='#{id}' style='display:none'&gt;\n#{body}\n&lt;/textarea&gt;&quot;</span> 
     <span class="ruby-keyword kw">end</span></pre></div>
 </div>
 

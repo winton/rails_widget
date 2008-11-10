@@ -20,7 +20,6 @@ module RailsWidget
 
       @assets = {}
       @options  = {}
-      @rendered = {}
       @targeted = {}
 
       update_options
@@ -94,10 +93,6 @@ module RailsWidget
     # The render will not occur if it has already happened with the same <tt>:id</tt> option.
     #
     def render_init(type, options=@options)
-      @rendered[type] ||= {}
-      #return nil if @rendered[type][options[:id]]
-      @rendered[type][options[:id]] = true
-
       @assets["init_#{type}".intern].collect do |f|
         @controller.render_to_string :file => f, :locals => options.merge(:options => options)
       end.join("\n")

@@ -20,7 +20,7 @@ module RailsWidget
     "/flash/widgets/#{path.join('/')}/#{flash}"
   end
   
-  # Returns an image tag for a image asset.
+  # Returns an image tag for an image asset.
   #
   # ==== Example
   #   <%= image :some, :widget, 'image.png', :border => 0 %>
@@ -32,7 +32,7 @@ module RailsWidget
     image_tag "widgets/#{path.join('/')}/#{image}", options
   end
   
-  # Returns an image path for a image asset.
+  # Returns an image path for an image asset.
   #
   # ==== Example
   #   <%= image_path :some, :widget, 'image.png' %>
@@ -77,7 +77,7 @@ module RailsWidget
       @controller = controller
       @logger     = logger
       @widgets    = {}
-      build
+      build # app/widgets acts as a widget
     end
     
     # See <tt>widget (RailsWidget)</tt>.

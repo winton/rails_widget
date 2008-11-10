@@ -335,35 +335,35 @@ Object
 <div class="navigation top" id="methods"><h3>Methods</h3>
 
 
-<a href='#M000017'>
+<a href='#M000021'>
 add_static_assets<br/>
 </a>
 
 
 
 
-<a href='#M000015'>
+<a href='#M000019'>
 build<br/>
 </a>
 
 
 
 
-<a href='#M000016'>
+<a href='#M000020'>
 instanciate<br/>
 </a>
 
 
 
 
-<a href='#M000014'>
+<a href='#M000018'>
 new<br/>
 </a>
 
 
 
 
-<a href='#M000018'>
+<a href='#M000022'>
 return_init_assets<br/>
 </a>
 
@@ -401,9 +401,9 @@ class.
 <h1>Public Class Methods</h1>
 
 
-<a class="small" name="M000014"><br/></a>
+<a class="small" name="M000018"><br/></a>
 <div class="method_block"><h3>
-<a href='#M000014'>
+<a href='#M000018'>
 
 
 new
@@ -421,14 +421,14 @@ href="../RailsWidget.html">RailsWidget</a>)</tt>.
   w = Widgets.new Assets.new(binding, controller), binding, controller, logger
 </pre>
 
-<p class="source_link" id="M000014-show-link"><a onclick="toggle('M000014-source'); toggleText('M000014-link'); return false;" href="#" id="M000014-link">Show source...</a></p><div class="source" id="M000014-source"><pre><span class="ruby-comment cmt"># File lib/rails_widget/widgets.rb, line 74</span>
+<p class="source_link" id="M000018-show-link"><a onclick="toggle('M000018-source'); toggleText('M000018-link'); return false;" href="#" id="M000018-link">Show source...</a></p><div class="source" id="M000018-source"><pre><span class="ruby-comment cmt"># File lib/rails_widget/widgets.rb, line 74</span>
     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">assets</span>, <span class="ruby-identifier">bind</span>, <span class="ruby-identifier">controller</span>, <span class="ruby-identifier">logger</span>)
       <span class="ruby-ivar">@assets</span>     = <span class="ruby-identifier">assets</span>
       <span class="ruby-ivar">@bind</span>       = <span class="ruby-identifier">bind</span>
       <span class="ruby-ivar">@controller</span> = <span class="ruby-identifier">controller</span>
       <span class="ruby-ivar">@logger</span>     = <span class="ruby-identifier">logger</span>
       <span class="ruby-ivar">@widgets</span>    = {}
-      <span class="ruby-identifier">build</span>
+      <span class="ruby-identifier">build</span> <span class="ruby-comment cmt"># app/widgets acts as a widget</span>
     <span class="ruby-keyword kw">end</span></pre></div>
 </div>
 
@@ -436,9 +436,9 @@ href="../RailsWidget.html">RailsWidget</a>)</tt>.
 <h1>Public Instance Methods</h1>
 
 
-<a class="small" name="M000017"><br/></a>
+<a class="small" name="M000021"><br/></a>
 <div class="method_block"><h3>
-<a href='#M000017'>
+<a href='#M000021'>
 
 
 add_static_assets
@@ -456,7 +456,7 @@ Also adds static (non-init) assets to the layout via the <a
 href="Assets.html">Assets</a> helpers.
 </p>
 
-<p class="source_link" id="M000017-show-link"><a onclick="toggle('M000017-source'); toggleText('M000017-link'); return false;" href="#" id="M000017-link">Show source...</a></p><div class="source" id="M000017-source"><pre><span class="ruby-comment cmt"># File lib/rails_widget/widgets.rb, line 116</span>
+<p class="source_link" id="M000021-show-link"><a onclick="toggle('M000021-source'); toggleText('M000021-link'); return false;" href="#" id="M000021-link">Show source...</a></p><div class="source" id="M000021-source"><pre><span class="ruby-comment cmt"># File lib/rails_widget/widgets.rb, line 116</span>
     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">add_static_assets</span>(<span class="ruby-identifier">widgets</span>, <span class="ruby-identifier">options</span>)
       <span class="ruby-identifier">widgets</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">w</span><span class="ruby-operator">|</span>
         <span class="ruby-identifier">w</span>.<span class="ruby-identifier">copy_assets</span>
@@ -471,9 +471,9 @@ href="Assets.html">Assets</a> helpers.
     <span class="ruby-keyword kw">end</span></pre></div>
 </div>
 
-<a class="small" name="M000015"><br/></a>
+<a class="small" name="M000019"><br/></a>
 <div class="method_block"><h3>
-<a href='#M000015'>
+<a href='#M000019'>
 
 
 build
@@ -486,7 +486,7 @@ build
 See <tt>widget (<a href="../RailsWidget.html">RailsWidget</a>)</tt>.
 </p>
 
-<p class="source_link" id="M000015-show-link"><a onclick="toggle('M000015-source'); toggleText('M000015-link'); return false;" href="#" id="M000015-link">Show source...</a></p><div class="source" id="M000015-source"><pre><span class="ruby-comment cmt"># File lib/rails_widget/widgets.rb, line 85</span>
+<p class="source_link" id="M000019-show-link"><a onclick="toggle('M000019-source'); toggleText('M000019-link'); return false;" href="#" id="M000019-link">Show source...</a></p><div class="source" id="M000019-source"><pre><span class="ruby-comment cmt"># File lib/rails_widget/widgets.rb, line 85</span>
     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">build</span>(<span class="ruby-identifier">path</span>=[<span class="ruby-value str">''</span>], <span class="ruby-identifier">options</span>={})
       <span class="ruby-identifier">widgets</span>, <span class="ruby-identifier">opts</span> = <span class="ruby-identifier">instanciate</span> <span class="ruby-identifier">path</span>
       <span class="ruby-identifier">options</span> = <span class="ruby-identifier">opts</span>.<span class="ruby-identifier">merge</span> <span class="ruby-identifier">options</span>        <span class="ruby-comment cmt"># Merge the options parameter (highest precedence)</span>
@@ -495,9 +495,9 @@ See <tt>widget (<a href="../RailsWidget.html">RailsWidget</a>)</tt>.
     <span class="ruby-keyword kw">end</span></pre></div>
 </div>
 
-<a class="small" name="M000016"><br/></a>
+<a class="small" name="M000020"><br/></a>
 <div class="method_block"><h3>
-<a href='#M000016'>
+<a href='#M000020'>
 
 
 instanciate
@@ -522,7 +522,7 @@ Returns an array of widget instances and merged <tt>options.rb</tt> hashes.
 (See the <tt>related_paths</tt> example for context.)
 </p>
 
-<p class="source_link" id="M000016-show-link"><a onclick="toggle('M000016-source'); toggleText('M000016-link'); return false;" href="#" id="M000016-link">Show source...</a></p><div class="source" id="M000016-source"><pre><span class="ruby-comment cmt"># File lib/rails_widget/widgets.rb, line 102</span>
+<p class="source_link" id="M000020-show-link"><a onclick="toggle('M000020-source'); toggleText('M000020-link'); return false;" href="#" id="M000020-link">Show source...</a></p><div class="source" id="M000020-source"><pre><span class="ruby-comment cmt"># File lib/rails_widget/widgets.rb, line 102</span>
     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">instanciate</span>(<span class="ruby-identifier">path</span>)
       <span class="ruby-identifier">opts</span> = {}
       <span class="ruby-identifier">widgets</span> = <span class="ruby-identifier">related_paths</span>(<span class="ruby-identifier">path</span>).<span class="ruby-identifier">collect</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">r</span><span class="ruby-operator">|</span>
@@ -534,9 +534,9 @@ Returns an array of widget instances and merged <tt>options.rb</tt> hashes.
     <span class="ruby-keyword kw">end</span></pre></div>
 </div>
 
-<a class="small" name="M000018"><br/></a>
+<a class="small" name="M000022"><br/></a>
 <div class="method_block"><h3>
-<a href='#M000018'>
+<a href='#M000022'>
 
 
 return_init_assets
@@ -555,7 +555,7 @@ The <tt>:include_js =&gt; true</tt> option appends
 rendering a widget in an Ajax response.
 </p>
 
-<p class="source_link" id="M000018-show-link"><a onclick="toggle('M000018-source'); toggleText('M000018-link'); return false;" href="#" id="M000018-link">Show source...</a></p><div class="source" id="M000018-source"><pre><span class="ruby-comment cmt"># File lib/rails_widget/widgets.rb, line 134</span>
+<p class="source_link" id="M000022-show-link"><a onclick="toggle('M000022-source'); toggleText('M000022-link'); return false;" href="#" id="M000022-link">Show source...</a></p><div class="source" id="M000022-source"><pre><span class="ruby-comment cmt"># File lib/rails_widget/widgets.rb, line 134</span>
     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">return_init_assets</span>(<span class="ruby-identifier">widgets</span>, <span class="ruby-identifier">options</span>)
       <span class="ruby-comment cmt"># Render partials/_init.* (options[:include_js] will render javascripts/init.js in &lt;script&gt; tags)</span>
       <span class="ruby-identifier">widgets</span>.<span class="ruby-identifier">collect</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">w</span><span class="ruby-operator">|</span>
