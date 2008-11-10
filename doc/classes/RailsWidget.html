@@ -340,56 +340,56 @@ Module: RailsWidget
 <div class="navigation top" id="methods"><h3>Methods</h3>
 
 
-<a href='#M000005'>
+<a href='#M000006'>
 flash_path<br/>
 </a>
 
 
 
 
-<a href='#M000006'>
+<a href='#M000007'>
 image<br/>
 </a>
 
 
 
 
-<a href='#M000007'>
+<a href='#M000008'>
 image_path<br/>
 </a>
 
 
 
 
-<a href='#M000001'>
+<a href='#M000002'>
 javascripts<br/>
 </a>
 
 
 
 
-<a href='#M000008'>
+<a href='#M000009'>
 partial<br/>
 </a>
 
 
 
 
-<a href='#M000002'>
+<a href='#M000003'>
 stylesheets<br/>
 </a>
 
 
 
 
-<a href='#M000003'>
+<a href='#M000004'>
 templates<br/>
 </a>
 
 
 
 
-<a href='#M000004'>
+<a href='#M000005'>
 widget<br/>
 </a>
 
@@ -404,14 +404,14 @@ client-side assets into distributable &quot;widgets&quot;.
 </p>
 <ul>
 <li>Include assets and render partials to layout with a single <tt><a
-href="RailsWidget.html#M000004">widget</a></tt> call
+href="RailsWidget.html#M000005">widget</a></tt> call
 
 </li>
 <li>Share a common options hash between all of your rendered assets
 
 </li>
-<li>Supports flash, images, <a href="RailsWidget.html#M000001">javascripts</a>,
-<a href="RailsWidget.html#M000002">stylesheets</a>, and textarea template
+<li>Supports flash, images, <a href="RailsWidget.html#M000002">javascripts</a>,
+<a href="RailsWidget.html#M000003">stylesheets</a>, and textarea template
 (jst) assets
 
 </li>
@@ -457,9 +457,9 @@ Class <a href="RailsWidget/Widgets.html" class="link">RailsWidget::Widgets</a><b
 <h1>Public Instance Methods</h1>
 
 
-<a class="small" name="M000005"><br/></a>
+<a class="small" name="M000006"><br/></a>
 <div class="method_block"><h3>
-<a href='#M000005'>
+<a href='#M000006'>
 
 
 flash_path
@@ -477,16 +477,16 @@ Returns a path for a flash asset.
   # =&gt; 'app/widgets/some/widget/flash/flash.swf'
 </pre>
 
-<p class="source_link" id="M000005-show-link"><a onclick="toggle('M000005-source'); toggleText('M000005-link'); return false;" href="#" id="M000005-link">Show source...</a></p><div class="source" id="M000005-source"><pre><span class="ruby-comment cmt"># File lib/rails_widget/widgets.rb, line 18</span>
+<p class="source_link" id="M000006-show-link"><a onclick="toggle('M000006-source'); toggleText('M000006-link'); return false;" href="#" id="M000006-link">Show source...</a></p><div class="source" id="M000006-source"><pre><span class="ruby-comment cmt"># File lib/rails_widget/widgets.rb, line 18</span>
   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">flash_path</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">path</span>)
     <span class="ruby-identifier">flash</span> = <span class="ruby-identifier">path</span>.<span class="ruby-identifier">pop</span>
     <span class="ruby-node">&quot;/flash/widgets/#{path.join('/')}/#{flash}&quot;</span>
   <span class="ruby-keyword kw">end</span></pre></div>
 </div>
 
-<a class="small" name="M000006"><br/></a>
+<a class="small" name="M000007"><br/></a>
 <div class="method_block"><h3>
-<a href='#M000006'>
+<a href='#M000007'>
 
 
 image
@@ -496,8 +496,8 @@ image
 </a>
 </h3>
 <p>
-Returns an <a href="RailsWidget.html#M000006">image</a> tag for an <a
-href="RailsWidget.html#M000006">image</a> asset.
+Returns an <a href="RailsWidget.html#M000007">image</a> tag for an <a
+href="RailsWidget.html#M000007">image</a> asset.
 </p>
 <h4>Example</h4>
 <pre>
@@ -505,7 +505,7 @@ href="RailsWidget.html#M000006">image</a> asset.
   # =&gt; '&lt;img src=&quot;app/widgets/some/widget/images/image.png&quot; border=0 /&gt;'
 </pre>
 
-<p class="source_link" id="M000006-show-link"><a onclick="toggle('M000006-source'); toggleText('M000006-link'); return false;" href="#" id="M000006-link">Show source...</a></p><div class="source" id="M000006-source"><pre><span class="ruby-comment cmt"># File lib/rails_widget/widgets.rb, line 29</span>
+<p class="source_link" id="M000007-show-link"><a onclick="toggle('M000007-source'); toggleText('M000007-link'); return false;" href="#" id="M000007-link">Show source...</a></p><div class="source" id="M000007-source"><pre><span class="ruby-comment cmt"># File lib/rails_widget/widgets.rb, line 29</span>
   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">image</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">path</span>)
     <span class="ruby-identifier">options</span> = <span class="ruby-identifier">path</span>.<span class="ruby-identifier">extract_options!</span>
     <span class="ruby-identifier">image</span> = <span class="ruby-identifier">path</span>.<span class="ruby-identifier">pop</span>
@@ -513,9 +513,9 @@ href="RailsWidget.html#M000006">image</a> asset.
   <span class="ruby-keyword kw">end</span></pre></div>
 </div>
 
-<a class="small" name="M000007"><br/></a>
+<a class="small" name="M000008"><br/></a>
 <div class="method_block"><h3>
-<a href='#M000007'>
+<a href='#M000008'>
 
 
 image_path
@@ -525,8 +525,8 @@ image_path
 </a>
 </h3>
 <p>
-Returns an <a href="RailsWidget.html#M000006">image</a> path for an <a
-href="RailsWidget.html#M000006">image</a> asset.
+Returns an <a href="RailsWidget.html#M000007">image</a> path for an <a
+href="RailsWidget.html#M000007">image</a> asset.
 </p>
 <h4>Example</h4>
 <pre>
@@ -534,16 +534,16 @@ href="RailsWidget.html#M000006">image</a> asset.
   # =&gt; 'app/widgets/some/widget/images/image.png'
 </pre>
 
-<p class="source_link" id="M000007-show-link"><a onclick="toggle('M000007-source'); toggleText('M000007-link'); return false;" href="#" id="M000007-link">Show source...</a></p><div class="source" id="M000007-source"><pre><span class="ruby-comment cmt"># File lib/rails_widget/widgets.rb, line 41</span>
+<p class="source_link" id="M000008-show-link"><a onclick="toggle('M000008-source'); toggleText('M000008-link'); return false;" href="#" id="M000008-link">Show source...</a></p><div class="source" id="M000008-source"><pre><span class="ruby-comment cmt"># File lib/rails_widget/widgets.rb, line 41</span>
   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">image_path</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">path</span>)
     <span class="ruby-identifier">image</span> = <span class="ruby-identifier">path</span>.<span class="ruby-identifier">pop</span>
     <span class="ruby-node">&quot;/images/widgets/#{path.join('/')}/#{image}&quot;</span>
   <span class="ruby-keyword kw">end</span></pre></div>
 </div>
 
-<a class="small" name="M000001"><br/></a>
+<a class="small" name="M000002"><br/></a>
 <div class="method_block"><h3>
-<a href='#M000001'>
+<a href='#M000002'>
 
 
 javascripts
@@ -586,11 +586,11 @@ not.
   &lt;/html&gt;
 </pre>
 <p>
-Calling <tt><a href="RailsWidget.html#M000001">javascripts</a></tt> with
+Calling <tt><a href="RailsWidget.html#M000002">javascripts</a></tt> with
 path parameters or a script block will store the asset for later rendering.
 </p>
 <p>
-Calling <tt><a href="RailsWidget.html#M000001">javascripts</a></tt> without
+Calling <tt><a href="RailsWidget.html#M000002">javascripts</a></tt> without
 parameters renders the assets in the order they were added.
 </p>
 <p>
@@ -598,16 +598,16 @@ The method accepts all options supported by
 <tt>javascript_include_tag</tt>.
 </p>
 
-<p class="source_link" id="M000001-show-link"><a onclick="toggle('M000001-source'); toggleText('M000001-link'); return false;" href="#" id="M000001-link">Show source...</a></p><div class="source" id="M000001-source"><pre><span class="ruby-comment cmt"># File lib/rails_widget/assets.rb, line 37</span>
+<p class="source_link" id="M000002-show-link"><a onclick="toggle('M000002-source'); toggleText('M000002-link'); return false;" href="#" id="M000002-link">Show source...</a></p><div class="source" id="M000002-source"><pre><span class="ruby-comment cmt"># File lib/rails_widget/assets.rb, line 37</span>
   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">javascripts</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">paths</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
     <span class="ruby-ivar">@assets</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">Assets</span>.<span class="ruby-identifier">new</span> <span class="ruby-identifier">binding</span>, <span class="ruby-identifier">controller</span>, <span class="ruby-identifier">logger</span>
     <span class="ruby-ivar">@assets</span>.<span class="ruby-identifier">javascripts</span> <span class="ruby-operator">*</span><span class="ruby-identifier">paths</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>
   <span class="ruby-keyword kw">end</span></pre></div>
 </div>
 
-<a class="small" name="M000008"><br/></a>
+<a class="small" name="M000009"><br/></a>
 <div class="method_block"><h3>
-<a href='#M000008'>
+<a href='#M000009'>
 
 
 partial
@@ -617,7 +617,7 @@ partial
 </a>
 </h3>
 <p>
-Renders a <a href="RailsWidget.html#M000008">partial</a> asset.
+Renders a <a href="RailsWidget.html#M000009">partial</a> asset.
 </p>
 <h4>Example</h4>
 <pre>
@@ -625,7 +625,7 @@ Renders a <a href="RailsWidget.html#M000008">partial</a> asset.
   # =&gt; render :partial =&gt; 'app/widgets/some/widget/partials/partial', :locals =&gt; { :x =&gt; true }
 </pre>
 
-<p class="source_link" id="M000008-show-link"><a onclick="toggle('M000008-source'); toggleText('M000008-link'); return false;" href="#" id="M000008-link">Show source...</a></p><div class="source" id="M000008-source"><pre><span class="ruby-comment cmt"># File lib/rails_widget/widgets.rb, line 52</span>
+<p class="source_link" id="M000009-show-link"><a onclick="toggle('M000009-source'); toggleText('M000009-link'); return false;" href="#" id="M000009-link">Show source...</a></p><div class="source" id="M000009-source"><pre><span class="ruby-comment cmt"># File lib/rails_widget/widgets.rb, line 52</span>
   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">partial</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">path</span>)
     <span class="ruby-identifier">options</span> = <span class="ruby-identifier">path</span>.<span class="ruby-identifier">extract_options!</span>
     <span class="ruby-identifier">partial</span> = <span class="ruby-identifier">path</span>.<span class="ruby-identifier">pop</span>
@@ -639,9 +639,9 @@ Renders a <a href="RailsWidget.html#M000008">partial</a> asset.
   <span class="ruby-keyword kw">end</span></pre></div>
 </div>
 
-<a class="small" name="M000002"><br/></a>
+<a class="small" name="M000003"><br/></a>
 <div class="method_block"><h3>
-<a href='#M000002'>
+<a href='#M000003'>
 
 
 stylesheets
@@ -679,27 +679,27 @@ not.
   &lt;/html&gt;
 </pre>
 <p>
-Calling <tt><a href="RailsWidget.html#M000002">stylesheets</a></tt> with
+Calling <tt><a href="RailsWidget.html#M000003">stylesheets</a></tt> with
 path parameters will store the asset for later rendering.
 </p>
 <p>
-Calling <tt><a href="RailsWidget.html#M000002">stylesheets</a></tt> without
+Calling <tt><a href="RailsWidget.html#M000003">stylesheets</a></tt> without
 parameters renders the assets in the order they were added.
 </p>
 <p>
 The method accepts all options supported by <tt>stylesheet_link_tag</tt>.
 </p>
 
-<p class="source_link" id="M000002-show-link"><a onclick="toggle('M000002-source'); toggleText('M000002-link'); return false;" href="#" id="M000002-link">Show source...</a></p><div class="source" id="M000002-source"><pre><span class="ruby-comment cmt"># File lib/rails_widget/assets.rb, line 71</span>
+<p class="source_link" id="M000003-show-link"><a onclick="toggle('M000003-source'); toggleText('M000003-link'); return false;" href="#" id="M000003-link">Show source...</a></p><div class="source" id="M000003-source"><pre><span class="ruby-comment cmt"># File lib/rails_widget/assets.rb, line 71</span>
   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">stylesheets</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">paths</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
     <span class="ruby-ivar">@assets</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">Assets</span>.<span class="ruby-identifier">new</span> <span class="ruby-identifier">binding</span>, <span class="ruby-identifier">controller</span>, <span class="ruby-identifier">logger</span>
     <span class="ruby-ivar">@assets</span>.<span class="ruby-identifier">stylesheets</span> <span class="ruby-operator">*</span><span class="ruby-identifier">paths</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>
   <span class="ruby-keyword kw">end</span></pre></div>
 </div>
 
-<a class="small" name="M000003"><br/></a>
+<a class="small" name="M000004"><br/></a>
 <div class="method_block"><h3>
-<a href='#M000003'>
+<a href='#M000004'>
 
 
 templates
@@ -710,7 +710,7 @@ templates
 </h3>
 <p>
 Adds or renders textarea-based <a
-href="RailsWidget.html#M000003">templates</a> based on whether parameters
+href="RailsWidget.html#M000004">templates</a> based on whether parameters
 are given or not.
 </p>
 <p>
@@ -750,24 +750,24 @@ JST &lt;<a href="http://trimpath.com">trimpath.com</a>&gt;.
   &lt;/html&gt;
 </pre>
 <p>
-Calling <tt><a href="RailsWidget.html#M000003">templates</a></tt> with path
+Calling <tt><a href="RailsWidget.html#M000004">templates</a></tt> with path
 parameters or a block will store the asset for later rendering.
 </p>
 <p>
-Calling <tt><a href="RailsWidget.html#M000003">templates</a></tt> without
+Calling <tt><a href="RailsWidget.html#M000004">templates</a></tt> without
 parameters renders the assets in the order they were added.
 </p>
 
-<p class="source_link" id="M000003-show-link"><a onclick="toggle('M000003-source'); toggleText('M000003-link'); return false;" href="#" id="M000003-link">Show source...</a></p><div class="source" id="M000003-source"><pre><span class="ruby-comment cmt"># File lib/rails_widget/assets.rb, line 111</span>
+<p class="source_link" id="M000004-show-link"><a onclick="toggle('M000004-source'); toggleText('M000004-link'); return false;" href="#" id="M000004-link">Show source...</a></p><div class="source" id="M000004-source"><pre><span class="ruby-comment cmt"># File lib/rails_widget/assets.rb, line 111</span>
   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">templates</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">options</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
     <span class="ruby-ivar">@assets</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">Assets</span>.<span class="ruby-identifier">new</span> <span class="ruby-identifier">binding</span>, <span class="ruby-identifier">controller</span>, <span class="ruby-identifier">logger</span>
     <span class="ruby-ivar">@assets</span>.<span class="ruby-identifier">templates</span> <span class="ruby-operator">*</span><span class="ruby-identifier">options</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>
   <span class="ruby-keyword kw">end</span></pre></div>
 </div>
 
-<a class="small" name="M000004"><br/></a>
+<a class="small" name="M000005"><br/></a>
 <div class="method_block"><h3>
-<a href='#M000004'>
+<a href='#M000005'>
 
 
 widget
@@ -780,7 +780,7 @@ widget
 See <tt><a href="RailsWidget.html">RailsWidget</a></tt>.
 </p>
 
-<p class="source_link" id="M000004-show-link"><a onclick="toggle('M000004-source'); toggleText('M000004-link'); return false;" href="#" id="M000004-link">Show source...</a></p><div class="source" id="M000004-source"><pre><span class="ruby-comment cmt"># File lib/rails_widget/widgets.rb, line 5</span>
+<p class="source_link" id="M000005-show-link"><a onclick="toggle('M000005-source'); toggleText('M000005-link'); return false;" href="#" id="M000005-link">Show source...</a></p><div class="source" id="M000005-source"><pre><span class="ruby-comment cmt"># File lib/rails_widget/widgets.rb, line 5</span>
   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">widget</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">path</span>)
     <span class="ruby-ivar">@assets</span>  <span class="ruby-operator">||=</span> <span class="ruby-constant">Assets</span>.<span class="ruby-identifier">new</span>  <span class="ruby-identifier">binding</span>, <span class="ruby-identifier">controller</span>, <span class="ruby-identifier">logger</span>
     <span class="ruby-ivar">@widgets</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">Widgets</span>.<span class="ruby-identifier">new</span> <span class="ruby-ivar">@assets</span>, <span class="ruby-identifier">binding</span>, <span class="ruby-identifier">controller</span>, <span class="ruby-identifier">logger</span>

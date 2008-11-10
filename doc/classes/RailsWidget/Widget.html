@@ -335,70 +335,70 @@ Object
 <div class="navigation top" id="methods"><h3>Methods</h3>
 
 
-<a href='#M000026'>
+<a href='#M000027'>
 asset_paths<br/>
 </a>
 
 
 
 
-<a href='#M000024'>
+<a href='#M000025'>
 cache<br/>
 </a>
 
 
 
 
-<a href='#M000025'>
+<a href='#M000026'>
 copy_assets<br/>
 </a>
 
 
 
 
-<a href='#M000028'>
+<a href='#M000029'>
 filename_to_partial<br/>
 </a>
 
 
 
 
-<a href='#M000029'>
+<a href='#M000030'>
 needs_update?<br/>
 </a>
 
 
 
 
-<a href='#M000023'>
+<a href='#M000024'>
 new<br/>
 </a>
 
 
 
 
-<a href='#M000027'>
+<a href='#M000028'>
 render_init<br/>
 </a>
 
 
 
 
-<a href='#M000030'>
+<a href='#M000031'>
 to_path<br/>
 </a>
 
 
 
 
-<a href='#M000031'>
+<a href='#M000032'>
 update_asset<br/>
 </a>
 
 
 
 
-<a href='#M000032'>
+<a href='#M000033'>
 update_options<br/>
 </a>
 
@@ -470,9 +470,9 @@ when necessary.
 <h1>Public Class Methods</h1>
 
 
-<a class="small" name="M000023"><br/></a>
+<a class="small" name="M000024"><br/></a>
 <div class="method_block"><h3>
-<a href='#M000023'>
+<a href='#M000024'>
 
 
 new
@@ -482,12 +482,12 @@ new
 </a>
 </h3>
 <p>
-Calls <tt><a href="Widget.html#M000032">update_options</a></tt> and <tt><a
-href="Widget.html#M000031">update_asset</a></tt> for each
+Calls <tt><a href="Widget.html#M000033">update_options</a></tt> and <tt><a
+href="Widget.html#M000032">update_asset</a></tt> for each
 <tt>ASSET_TYPE</tt>.
 </p>
 
-<p class="source_link" id="M000023-show-link"><a onclick="toggle('M000023-source'); toggleText('M000023-link'); return false;" href="#" id="M000023-link">Show source...</a></p><div class="source" id="M000023-source"><pre><span class="ruby-comment cmt"># File lib/rails_widget/widget.rb, line 15</span>
+<p class="source_link" id="M000024-show-link"><a onclick="toggle('M000024-source'); toggleText('M000024-link'); return false;" href="#" id="M000024-link">Show source...</a></p><div class="source" id="M000024-source"><pre><span class="ruby-comment cmt"># File lib/rails_widget/widget.rb, line 15</span>
     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">path</span>, <span class="ruby-identifier">bind</span>, <span class="ruby-identifier">controller</span>, <span class="ruby-identifier">logger</span>)
       <span class="ruby-ivar">@path</span> = <span class="ruby-identifier">path</span>
       <span class="ruby-ivar">@bind</span> = <span class="ruby-identifier">bind</span>
@@ -509,9 +509,9 @@ href="Widget.html#M000031">update_asset</a></tt> for each
 <h1>Public Instance Methods</h1>
 
 
-<a class="small" name="M000026"><br/></a>
+<a class="small" name="M000027"><br/></a>
 <div class="method_block"><h3>
-<a href='#M000026'>
+<a href='#M000027'>
 
 
 asset_paths
@@ -528,7 +528,7 @@ helpers for a particular <tt>ASSET_TYPE</tt>.
 See <tt>add_static_assets (<a href="Widgets.html">Widgets</a>)</tt>.
 </p>
 
-<p class="source_link" id="M000026-show-link"><a onclick="toggle('M000026-source'); toggleText('M000026-link'); return false;" href="#" id="M000026-link">Show source...</a></p><div class="source" id="M000026-source"><pre><span class="ruby-comment cmt"># File lib/rails_widget/widget.rb, line 72</span>
+<p class="source_link" id="M000027-show-link"><a onclick="toggle('M000027-source'); toggleText('M000027-link'); return false;" href="#" id="M000027-link">Show source...</a></p><div class="source" id="M000027-source"><pre><span class="ruby-comment cmt"># File lib/rails_widget/widget.rb, line 72</span>
     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">asset_paths</span>(<span class="ruby-identifier">type</span>)
       <span class="ruby-keyword kw">return</span> [] <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@targeted</span>[<span class="ruby-identifier">type</span>]
       <span class="ruby-ivar">@targeted</span>[<span class="ruby-identifier">type</span>] = <span class="ruby-keyword kw">true</span>
@@ -549,9 +549,9 @@ See <tt>add_static_assets (<a href="Widgets.html">Widgets</a>)</tt>.
     <span class="ruby-keyword kw">end</span></pre></div>
 </div>
 
-<a class="small" name="M000024"><br/></a>
+<a class="small" name="M000025"><br/></a>
 <div class="method_block"><h3>
-<a href='#M000024'>
+<a href='#M000025'>
 
 
 cache
@@ -561,19 +561,19 @@ cache
 </a>
 </h3>
 <p>
-Returns a <a href="Widget.html#M000024">cache</a> path suitable for Rails
+Returns a <a href="Widget.html#M000025">cache</a> path suitable for Rails
 asset helpers.
 </p>
 
-<p class="source_link" id="M000024-show-link"><a onclick="toggle('M000024-source'); toggleText('M000024-link'); return false;" href="#" id="M000024-link">Show source...</a></p><div class="source" id="M000024-source"><pre><span class="ruby-comment cmt"># File lib/rails_widget/widget.rb, line 33</span>
+<p class="source_link" id="M000025-show-link"><a onclick="toggle('M000025-source'); toggleText('M000025-link'); return false;" href="#" id="M000025-link">Show source...</a></p><div class="source" id="M000025-source"><pre><span class="ruby-comment cmt"># File lib/rails_widget/widget.rb, line 33</span>
     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">cache</span>
       <span class="ruby-value str">'cache/'</span> <span class="ruby-operator">+</span> (<span class="ruby-ivar">@path</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-value">? </span><span class="ruby-value str">'base'</span> <span class="ruby-operator">:</span> <span class="ruby-ivar">@path</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-value str">'/'</span>, <span class="ruby-value str">'_'</span>))
     <span class="ruby-keyword kw">end</span></pre></div>
 </div>
 
-<a class="small" name="M000025"><br/></a>
+<a class="small" name="M000026"><br/></a>
 <div class="method_block"><h3>
-<a href='#M000025'>
+<a href='#M000026'>
 
 
 copy_assets
@@ -595,7 +595,7 @@ Renders javascripts to <tt>public/javascripts/widgets</tt>.
 Renders stylesheets to <tt>public/stylesheets/widgets</tt>.
 </p>
 
-<p class="source_link" id="M000025-show-link"><a onclick="toggle('M000025-source'); toggleText('M000025-link'); return false;" href="#" id="M000025-link">Show source...</a></p><div class="source" id="M000025-source"><pre><span class="ruby-comment cmt"># File lib/rails_widget/widget.rb, line 45</span>
+<p class="source_link" id="M000026-show-link"><a onclick="toggle('M000026-source'); toggleText('M000026-link'); return false;" href="#" id="M000026-link">Show source...</a></p><div class="source" id="M000026-source"><pre><span class="ruby-comment cmt"># File lib/rails_widget/widget.rb, line 45</span>
     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">copy_assets</span>
       <span class="ruby-ivar">@assets</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span>
         <span class="ruby-identifier">from</span>, <span class="ruby-identifier">to</span> = <span class="ruby-identifier">to_path</span> <span class="ruby-identifier">key</span>
@@ -620,9 +620,9 @@ Renders stylesheets to <tt>public/stylesheets/widgets</tt>.
     <span class="ruby-keyword kw">end</span></pre></div>
 </div>
 
-<a class="small" name="M000027"><br/></a>
+<a class="small" name="M000028"><br/></a>
 <div class="method_block"><h3>
-<a href='#M000027'>
+<a href='#M000028'>
 
 
 render_init
@@ -639,7 +639,7 @@ The render will not occur if it has already happened with the same
 <tt>:id</tt> option.
 </p>
 
-<p class="source_link" id="M000027-show-link"><a onclick="toggle('M000027-source'); toggleText('M000027-link'); return false;" href="#" id="M000027-link">Show source...</a></p><div class="source" id="M000027-source"><pre><span class="ruby-comment cmt"># File lib/rails_widget/widget.rb, line 95</span>
+<p class="source_link" id="M000028-show-link"><a onclick="toggle('M000028-source'); toggleText('M000028-link'); return false;" href="#" id="M000028-link">Show source...</a></p><div class="source" id="M000028-source"><pre><span class="ruby-comment cmt"># File lib/rails_widget/widget.rb, line 95</span>
     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">render_init</span>(<span class="ruby-identifier">type</span>, <span class="ruby-identifier">options</span>=<span class="ruby-ivar">@options</span>)
       <span class="ruby-ivar">@assets</span>[<span class="ruby-node">&quot;init_#{type}&quot;</span>.<span class="ruby-identifier">intern</span>].<span class="ruby-identifier">collect</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">f</span><span class="ruby-operator">|</span>
         <span class="ruby-ivar">@controller</span>.<span class="ruby-identifier">render_to_string</span> <span class="ruby-identifier">:file</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">f</span>, <span class="ruby-identifier">:locals</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">options</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">:options</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">options</span>)
@@ -651,9 +651,9 @@ The render will not occur if it has already happened with the same
 <h1>Private Instance Methods</h1>
 
 
-<a class="small" name="M000028"><br/></a>
+<a class="small" name="M000029"><br/></a>
 <div class="method_block"><h3>
-<a href='#M000028'>
+<a href='#M000029'>
 
 
 filename_to_partial
@@ -670,7 +670,7 @@ Converts a full file name to a path that can be used by <tt>render
 Optionally removes string(s) from the returned path.
 </p>
 
-<p class="source_link" id="M000028-show-link"><a onclick="toggle('M000028-source'); toggleText('M000028-link'); return false;" href="#" id="M000028-link">Show source...</a></p><div class="source" id="M000028-source"><pre><span class="ruby-comment cmt"># File lib/rails_widget/widget.rb, line 107</span>
+<p class="source_link" id="M000029-show-link"><a onclick="toggle('M000029-source'); toggleText('M000029-link'); return false;" href="#" id="M000029-link">Show source...</a></p><div class="source" id="M000029-source"><pre><span class="ruby-comment cmt"># File lib/rails_widget/widget.rb, line 107</span>
     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">filename_to_partial</span>(<span class="ruby-identifier">file</span>, <span class="ruby-identifier">remove</span>=<span class="ruby-keyword kw">nil</span>) <span class="ruby-comment cmt">#:doc:</span>
       <span class="ruby-identifier">base</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">basename</span> <span class="ruby-identifier">file</span>
       <span class="ruby-identifier">dir</span>  = <span class="ruby-constant">File</span>.<span class="ruby-identifier">dirname</span> <span class="ruby-identifier">file</span>
@@ -686,9 +686,9 @@ Optionally removes string(s) from the returned path.
     <span class="ruby-keyword kw">end</span></pre></div>
 </div>
 
-<a class="small" name="M000029"><br/></a>
+<a class="small" name="M000030"><br/></a>
 <div class="method_block"><h3>
-<a href='#M000029'>
+<a href='#M000030'>
 
 
 needs_update?
@@ -702,15 +702,15 @@ Returns true if <tt>from</tt> is newer than <tt>to</tt> or <tt>to</tt> does
 not exist.
 </p>
 
-<p class="source_link" id="M000029-show-link"><a onclick="toggle('M000029-source'); toggleText('M000029-link'); return false;" href="#" id="M000029-link">Show source...</a></p><div class="source" id="M000029-source"><pre><span class="ruby-comment cmt"># File lib/rails_widget/widget.rb, line 123</span>
+<p class="source_link" id="M000030-show-link"><a onclick="toggle('M000030-source'); toggleText('M000030-link'); return false;" href="#" id="M000030-link">Show source...</a></p><div class="source" id="M000030-source"><pre><span class="ruby-comment cmt"># File lib/rails_widget/widget.rb, line 123</span>
     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">needs_update?</span>(<span class="ruby-identifier">from</span>, <span class="ruby-identifier">to</span>) <span class="ruby-comment cmt">#:doc:</span>
       <span class="ruby-constant">File</span>.<span class="ruby-identifier">exists?</span>(<span class="ruby-identifier">to</span>) <span class="ruby-operator">?</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">mtime</span>(<span class="ruby-identifier">from</span>) <span class="ruby-operator">&gt;</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">mtime</span>(<span class="ruby-identifier">to</span>) <span class="ruby-operator">:</span> <span class="ruby-keyword kw">true</span>
     <span class="ruby-keyword kw">end</span></pre></div>
 </div>
 
-<a class="small" name="M000030"><br/></a>
+<a class="small" name="M000031"><br/></a>
 <div class="method_block"><h3>
-<a href='#M000030'>
+<a href='#M000031'>
 
 
 to_path
@@ -723,7 +723,7 @@ to_path
 Returns a full path for the specified <tt>ASSET_TYPE</tt>.
 </p>
 
-<p class="source_link" id="M000030-show-link"><a onclick="toggle('M000030-source'); toggleText('M000030-link'); return false;" href="#" id="M000030-link">Show source...</a></p><div class="source" id="M000030-source"><pre><span class="ruby-comment cmt"># File lib/rails_widget/widget.rb, line 129</span>
+<p class="source_link" id="M000031-show-link"><a onclick="toggle('M000031-source'); toggleText('M000031-link'); return false;" href="#" id="M000031-link">Show source...</a></p><div class="source" id="M000031-source"><pre><span class="ruby-comment cmt"># File lib/rails_widget/widget.rb, line 129</span>
     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">to_path</span>(<span class="ruby-identifier">type</span>, <span class="ruby-identifier">path</span>=<span class="ruby-ivar">@path</span>) <span class="ruby-comment cmt">#:doc:</span>
       <span class="ruby-identifier">slash</span> = <span class="ruby-identifier">path</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-value">? </span><span class="ruby-value str">''</span> <span class="ruby-operator">:</span> <span class="ruby-value str">'/'</span>
       <span class="ruby-identifier">base</span>  = <span class="ruby-node">&quot;app/widgets#{slash}#{path}&quot;</span>
@@ -742,9 +742,9 @@ Returns a full path for the specified <tt>ASSET_TYPE</tt>.
     <span class="ruby-keyword kw">end</span></pre></div>
 </div>
 
-<a class="small" name="M000031"><br/></a>
+<a class="small" name="M000032"><br/></a>
 <div class="method_block"><h3>
-<a href='#M000031'>
+<a href='#M000032'>
 
 
 update_asset
@@ -758,7 +758,7 @@ Updates <tt>@assets[type]</tt> with an array of paths for the specified
 <tt>ASSET_TYPE</tt>.
 </p>
 
-<p class="source_link" id="M000031-show-link"><a onclick="toggle('M000031-source'); toggleText('M000031-link'); return false;" href="#" id="M000031-link">Show source...</a></p><div class="source" id="M000031-source"><pre><span class="ruby-comment cmt"># File lib/rails_widget/widget.rb, line 148</span>
+<p class="source_link" id="M000032-show-link"><a onclick="toggle('M000032-source'); toggleText('M000032-link'); return false;" href="#" id="M000032-link">Show source...</a></p><div class="source" id="M000032-source"><pre><span class="ruby-comment cmt"># File lib/rails_widget/widget.rb, line 148</span>
     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">update_asset</span>(<span class="ruby-identifier">type</span>) <span class="ruby-comment cmt">#:doc:</span>
       <span class="ruby-ivar">@assets</span>[<span class="ruby-identifier">type</span>] <span class="ruby-operator">||=</span> []
       <span class="ruby-identifier">from</span> = <span class="ruby-identifier">to_path</span> <span class="ruby-identifier">type</span>
@@ -771,9 +771,9 @@ Updates <tt>@assets[type]</tt> with an array of paths for the specified
     <span class="ruby-keyword kw">end</span></pre></div>
 </div>
 
-<a class="small" name="M000032"><br/></a>
+<a class="small" name="M000033"><br/></a>
 <div class="method_block"><h3>
-<a href='#M000032'>
+<a href='#M000033'>
 
 
 update_options
@@ -787,7 +787,7 @@ Assigns the hash in <tt>options.rb</tt> (if it exists) to
 <tt>@options</tt>.
 </p>
 
-<p class="source_link" id="M000032-show-link"><a onclick="toggle('M000032-source'); toggleText('M000032-link'); return false;" href="#" id="M000032-link">Show source...</a></p><div class="source" id="M000032-source"><pre><span class="ruby-comment cmt"># File lib/rails_widget/widget.rb, line 161</span>
+<p class="source_link" id="M000033-show-link"><a onclick="toggle('M000033-source'); toggleText('M000033-link'); return false;" href="#" id="M000033-link">Show source...</a></p><div class="source" id="M000033-source"><pre><span class="ruby-comment cmt"># File lib/rails_widget/widget.rb, line 161</span>
     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">update_options</span>(<span class="ruby-identifier">path</span>=<span class="ruby-ivar">@path</span>, <span class="ruby-identifier">empty</span>=<span class="ruby-keyword kw">false</span>) <span class="ruby-comment cmt">#:doc:</span>
       <span class="ruby-identifier">path</span> = <span class="ruby-identifier">to_path</span> <span class="ruby-identifier">:options</span>, <span class="ruby-identifier">path</span>
       <span class="ruby-ivar">@options</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">exists?</span>(<span class="ruby-identifier">path</span>) <span class="ruby-operator">?</span> <span class="ruby-identifier">eval</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">read</span>(<span class="ruby-identifier">path</span>), <span class="ruby-ivar">@bind</span>) <span class="ruby-operator">:</span> {}
