@@ -35,6 +35,14 @@ namespace :widget do
           # Clone git repo
           puts "Cloning #{base}..."
           `git clone #{repo} #{path}`
+          
+          # Add symbolic link for generators
+          generator = "#{path}/generator"
+          if File.exists?(generator)
+            links = "#{RAILS_ROOT}/lib/generators"
+            FileUtils.mkdir_p links
+            FileUtils.ln_sf generator, "#{links}/#{base}"
+          end
         
           # Run install.rb
           if File.exists?("#{path}/install.rb")
@@ -68,8 +76,12 @@ namespace :widget do
         base = File.basename repo, '.git'
         path = "#{path}/#{base}"
         
-        # Remove widget if already exists
         if File.exists?(path)
+          # Remove symbolic link for generators
+          link = "#{RAILS_ROOT}/lib/generators/#{base}"
+          FileUtils.rm_rf(link) if File.exists?(link)
+          
+          # Remove widget
           puts "Removing #{base}..."
           FileUtils.rm_rf path
           puts "Removed!"
@@ -78,6 +90,7 @@ namespace :widget do
         end
       end
     else
+      # Print the usage
       puts "Usage\n  rake widget:remove git=git@github.com:user/repository.git"
     end
     puts "\n"
