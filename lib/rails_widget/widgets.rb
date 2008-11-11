@@ -1,21 +1,23 @@
 module RailsWidget
   
-  # See <tt>RailsWidget</tt>.
+  # Adds a widget's assets to the page via the Assets class.
+  #
+  # Renders and returns <tt>partials/_init.*</tt>.
+  #
+  # ==== Example
+  #   <%= widgets :path, :to, :widget, :my_option => true %>
+  #
+  # In this example, you are rendering <tt>app/widgets/path/to/widget</tt>.
+  #
+  # The options at the end are merged with the widget's <tt>options.rb</tt> hash.
+  #
+  # http://github.com/winton/rails_widget/wikis
   #
   def widget(*path)
+    options = path.extract_options!
     @assets  ||= Assets.new  binding, controller, logger
     @widgets ||= Widgets.new @assets, binding, controller, logger
-    options = path.extract_options!
-    @widgets.build path, options
-  end
-  
-  # See <tt>RailsWidget</tt>.
-  #
-  def include_widget(*path)
-    @assets  ||= Assets.new  binding, controller, logger
-    @widgets ||= Widgets.new @assets, binding, controller, logger
-    options = path.extract_options!
-    @widgets.build path, options, false
+    @widgets.build path, options, options.delete(:init)
   end
   
   # Returns a path for a flash asset.
@@ -75,10 +77,7 @@ module RailsWidget
   class Widgets
     attr :widgets, true
     
-    # Should be called from a helper. See <tt>widget (RailsWidget)</tt>.
-    #
-    # ==== Example
-    #   w = Widgets.new Assets.new(binding, controller), binding, controller, logger
+    # Called from the <tt>widget (RailsWidget)</tt> helper.
     #
     def initialize(assets, bind, controller, logger)
       @assets     = assets
@@ -86,16 +85,20 @@ module RailsWidget
       @controller = controller
       @logger     = logger
       @widgets    = {}
-      build # app/widgets acts as a widget
+      build # The app/widgets directory acts as a widget
     end
     
     # See <tt>widget (RailsWidget)</tt>.
     #
-    def build(path=[''], options={}, render=true)
+    def build(path=[''], options={}, init=nil)
+      # Store widget instances and merged options.rb hashes
       widgets, opts = instanciate path
-      options = opts.merge options # Merge the options parameter last (highest precedence)
-      add_static_assets  widgets, options
-      return_init_assets(widgets, options) if render # Returns the init partial to <tt>widget (RailsWidget)</tt>
+      # Merge the options parameter from the widget call last (highest precedence)
+      options = opts.merge options
+      # Add non-init assets
+      add_static_assets (widgets, options) if init.nil? || init == false
+      # Add init assets and return partials/_init.*
+      return_init_assets(widgets, options) if init.nil? || init == true
     end
     
     # Creates Widget instances for the widget path and its <tt>related_paths</tt> if they do not already exist.
@@ -125,9 +128,9 @@ module RailsWidget
     def add_static_assets(widgets, options)
       widgets.each do |w|
         w.copy_assets
-        js  = w.asset_paths :javascripts
-        css = w.asset_paths :stylesheets
-        jst = w.asset_paths :templates
+        js  = w.asset_paths :javascripts, options
+        css = w.asset_paths :stylesheets, options
+        jst = w.asset_paths :templates,   options
         @assets.javascripts *(js  + [ :cache => w.cache ]) unless js.empty?
         @assets.stylesheets *(css + [ :cache => w.cache ]) unless css.empty?
         @assets.templates   *(jst.collect do |t|

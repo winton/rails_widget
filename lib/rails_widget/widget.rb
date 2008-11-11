@@ -69,22 +69,24 @@ module RailsWidget
     #
     # See <tt>add_static_assets (Widgets)</tt>.
     #
-    def asset_paths(type)
+    def asset_paths(type, options)
       return [] if @targeted[type]
       @targeted[type] = true
-
+      
+      assets = reject_ignored @assets[type], options
       from, to = to_path type
+      
       case type
       when :javascripts
-        @assets[type].collect do |asset|
+        assets.collect do |asset|
           [ to.split('javascripts/')[1], File.basename(asset, '.js') ].join '/'
         end
       when :stylesheets
-        @assets[type].collect do |asset|
+        assets.collect do |asset|
           sass = asset.include? '.sass'
           [ to.split('stylesheets/')[1], File.basename(asset, sass ? '.sass' : '.css') ].join '/'
         end
-      else @assets[type]
+      else assets
       end
     end
     
@@ -93,7 +95,8 @@ module RailsWidget
     # The render will not occur if it has already happened with the same <tt>:id</tt> option.
     #
     def render_init(type, options=@options)
-      @assets["init_#{type}".intern].collect do |f|
+      assets = reject_ignored @assets["init_#{type}".intern], options
+      assets.collect do |f|
         @controller.render_to_string :file => f, :locals => options.merge(:options => options)
       end.join("\n")
     end
@@ -122,6 +125,24 @@ module RailsWidget
     #
     def needs_update?(from, to) #:doc:
       File.exists?(to) ? File.mtime(from) > File.mtime(to) : true
+    end
+    
+    # Returns an array of assets with options[:ignore] paths removed.
+    #
+    def reject_ignored(assets, options)
+      if ignore = options[:ignore]
+        ignore = ignore.respond_to?(:pop) ? ignore : [ ignore ]
+        ignore.collect! do |i|
+          i = "app/widgets/#{i}"
+          assets.select do |a|
+            a[0..i.length-1] == i
+          end
+        end
+        ignore.flatten.compact.each do |i|
+          assets.delete i
+        end
+      end
+      assets
     end
     
     # Returns a full path for the specified <tt>ASSET_TYPE</tt>.
