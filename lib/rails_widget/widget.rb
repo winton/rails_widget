@@ -57,6 +57,7 @@ module RailsWidget
             FileUtils.cp_r f, t
           when :javascripts, :stylesheets
             FileUtils.mkdir_p File.dirname(t)
+            #FileUtils.cp_r f, t
             File.open t, 'w' do |file|
               file.write @controller.render_to_string(:file => f, :locals => @options.merge(:options => @options))
             end

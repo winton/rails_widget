@@ -17,7 +17,7 @@ module RailsWidget
     options = path.extract_options!
     @assets  ||= Assets.new  binding, controller, logger
     @widgets ||= Widgets.new @assets, binding, controller, logger
-    @widgets.build path, options, options.delete(:init)
+    @widgets.build path, options
   end
   
   # Returns a path for a flash asset.
@@ -90,11 +90,12 @@ module RailsWidget
     
     # See <tt>widget (RailsWidget)</tt>.
     #
-    def build(path=[''], options={}, init=nil)
+    def build(path=[''], options={})
       # Store widget instances and merged options.rb hashes
       widgets, opts = instanciate path
       # Merge the options parameter from the widget call last (highest precedence)
       options = opts.merge options
+      init = options[:init]
       # Add non-init assets
       add_static_assets (widgets, options) if init.nil? || init == false
       # Add init assets and return partials/_init.*

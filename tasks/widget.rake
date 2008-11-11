@@ -1,6 +1,23 @@
 namespace :widget do
   
   # ==== Example
+  #   rake widget:clean
+  #
+  desc 'Clean temporary widget files'
+  task :clean do
+    puts "\n"
+    [ 'javascripts/widgets', 'flash/widgets', 'images/widgets', 'stylesheets/widgets', 'stylesheets/sass/widgets' ].each do |f|
+      f = "public/#{f}"
+      if File.exists?(f)
+        puts "Removing #{f}..."
+        FileUtils.rm_rf(f)
+      end
+    end
+    puts "Clean!"
+    puts "\n"
+  end
+  
+  # ==== Example
   #   rake widget:install git=git@github.com:user/repository.git
   #
   desc 'Install a widget'
