@@ -152,7 +152,7 @@ module RailsWidget
         partial = w.render_init :partials, options
         css = w.render_init :css, options
         js  = w.render_init :js,  options
-        if options[:include_js] && js && !js.empty?
+        if options[:init] && js && !js.empty?
           partial + "\n<script type='text/javascript'>\n#{js}\n</script>"
         else
           @assets.stylesheets do
