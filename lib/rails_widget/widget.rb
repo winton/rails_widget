@@ -3,6 +3,8 @@ module RailsWidget
   # Stores information about a widget and renders assets to <tt>public/</tt> when necessary.
   #
   class Widget
+    include RailsWidget
+    
     attr :assets,  true # Paths for each ASSET_TYPE
     attr :cache,   true # Cache path for Rails asset helpers
     attr :options, true # Options hash from options.rb
@@ -12,7 +14,7 @@ module RailsWidget
 
     # Calls <tt>update_options</tt> and <tt>update_asset</tt> for each <tt>ASSET_TYPE</tt>.
     #
-    def initialize(path, bind, controller, logger)
+    def initialize(path, bind=nil, controller=nil, logger=nil)
       @path = path
       @bind = bind
       @controller = controller
@@ -21,47 +23,11 @@ module RailsWidget
       @assets = {}
       @options  = {}
       @targeted = {}
-
-      update_options
-      ASSET_TYPES.each do |type|
-        update_asset type
-      end
-    end
-    
-    # Returns a cache path suitable for Rails asset helpers.
-    #
-    def cache
-      'cache/' + (@path.empty? ? 'base' : @path.gsub('/', '_'))
-    end
-
-    # Copies widget images to <tt>public/images/widgets</tt>.
-    #
-    # Copies widget flash files to <tt>public/flash/widgets</tt>.
-    #
-    # Renders javascripts to <tt>public/javascripts/widgets</tt>.
-    #
-    # Renders stylesheets to <tt>public/stylesheets/widgets</tt>.
-    #
-    def copy_assets
-      @assets.each do |key, value|
-        from, to = to_path key
-        value.each do |asset|
-          base = File.basename asset
-          f = [ from, base ].join '/'
-          t = [ to,   base ].join '/'
-          t.gsub!('/stylesheets/', '/stylesheets/sass/') if t.include?('.sass')
-          next unless needs_update?(f, t)
-          case key
-          when :flash, :images
-            FileUtils.mkdir_p to
-            FileUtils.cp_r f, t
-          when :javascripts, :stylesheets
-            FileUtils.mkdir_p File.dirname(t)
-            #FileUtils.cp_r f, t
-            File.open t, 'w' do |file|
-              file.write @controller.render_to_string(:file => f, :locals => @options.merge(:options => @options))
-            end
-          end
+      
+      if @bind
+        update_options
+        ASSET_TYPES.each do |type|
+          update_asset type
         end
       end
     end
@@ -91,6 +57,47 @@ module RailsWidget
       end
     end
     
+    # Returns a cache path suitable for Rails asset helpers.
+    #
+    def cache
+      'cache/' + (@path.empty? ? 'base' : @path.gsub('/', '_'))
+    end
+
+    # Copies widget images to <tt>public/images/widgets</tt>.
+    #
+    # Copies widget flash files to <tt>public/flash/widgets</tt>.
+    #
+    # Renders javascripts to <tt>public/javascripts/widgets</tt>.
+    #
+    # Renders stylesheets to <tt>public/stylesheets/widgets</tt>.
+    #
+    def copy_assets
+      @assets.each do |key, value|
+        from, to = to_path key
+        value.each do |asset|
+          base = File.basename asset
+          f = [ from, base ].join '/'
+          t = [ to,   base ].join '/'
+          next unless needs_update?(f, t)
+          case key
+          when :flash, :images
+            FileUtils.mkdir_p to
+            FileUtils.cp_r f, t
+          when :javascripts, :stylesheets
+            t.gsub!('/stylesheets/', '/stylesheets/sass/') if t.include?('.sass')
+            FileUtils.mkdir_p File.dirname(t)
+            File.open t, 'w' do |file|
+              begin
+                file.write ERB.new(File.read(f)).result(binding)
+              rescue Exception => e
+                puts e.to_s
+              end
+            end
+          end
+        end
+      end
+    end
+    
     # Renders and returns the init file for a particular <tt>ASSET_TYPE</tt>.
     #
     # The render will not occur if it has already happened with the same <tt>:id</tt> option.
@@ -98,8 +105,23 @@ module RailsWidget
     def render_init(type, options=@options)
       assets = reject_ignored @assets["init_#{type}".intern], options
       assets.collect do |f|
-        @controller.render_to_string :file => f, :locals => options.merge(:options => options)
+        init = @controller.render_to_string :file => f, :locals => options.merge(:options => options)
+        init = Sass::Engine.new(init).render if f[-5..-1] == '.sass'
+        init
       end.join("\n")
+    end
+    
+    # Updates <tt>@assets[type]</tt> with an array of paths for the specified <tt>ASSET_TYPE</tt>.
+    #
+    def update_asset(type) #:doc:
+      @assets[type] ||= []
+      from = to_path type
+      from = from[0] if from.respond_to?(:pop)
+      from = File.directory?(from) ? "#{from}/*" : "#{from}.*"
+      Dir[from].sort.each do |f|
+        next if (type == :javascripts || type == :stylesheets) && File.basename(f)[0..3] == 'init'
+        @assets[type] << (type == :templates ? filename_to_partial(f, 'app/widgets/') : f)
+      end
     end
 
     private
@@ -162,19 +184,6 @@ module RailsWidget
       when :images:      [ base + '/images',      "public/images/widgets"      + slash + path ]
       when :javascripts: [ base + '/javascripts', "public/javascripts/widgets" + slash + path ]
       when :stylesheets: [ base + '/stylesheets', "public/stylesheets/widgets" + slash + path ]
-      end
-    end
-    
-    # Updates <tt>@assets[type]</tt> with an array of paths for the specified <tt>ASSET_TYPE</tt>.
-    #
-    def update_asset(type) #:doc:
-      @assets[type] ||= []
-      from = to_path type
-      from = from[0] if from.respond_to?(:pop)
-      from = File.directory?(from) ? "#{from}/*" : "#{from}.*"
-      Dir[from].sort.each do |f|
-        next if (type == :javascripts || type == :stylesheets) && File.basename(f)[0..3] == 'init'
-        @assets[type] << (type == :templates ? filename_to_partial(f, 'app/widgets/') : f)
       end
     end
 

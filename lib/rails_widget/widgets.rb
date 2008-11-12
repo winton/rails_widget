@@ -40,7 +40,7 @@ module RailsWidget
   def image(*path)
     options = path.extract_options!
     image = path.pop
-    image_tag "widgets/#{path.join('/')}/#{image}", options
+    ActionController::Base.helpers.image_tag "widgets/#{path.join('/')}/#{image}", options
   end
   
   # Returns an image path for an image asset.
@@ -163,6 +163,19 @@ module RailsWidget
           end unless js.empty?
           partial
         end
+      end
+    end
+    
+    # Used in <tt>config/environments/production.rb</tt> to copy all SASS files to <tt>public/sass/widgets</tt>.
+    #
+    def self.setup_production
+      from = Dir['app/widgets/**/stylesheets/*.sass'].uniq.collect do |from|
+        from.split('/')[2..-3].join('/')
+      end
+      from.uniq.each do |f|
+        w = Widget.new f
+        w.update_asset :stylesheets
+        w.copy_assets
       end
     end
     

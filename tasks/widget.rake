@@ -1,6 +1,14 @@
 namespace :widget do
   
   # ==== Example
+  #   rake widget:production
+  #
+  desc 'Sets up a production app (run after deploy)'
+  task :production do
+    `script/runner 'RailsWidget::Widgets.setup_production'`
+  end
+  
+  # ==== Example
   #   rake widget:clean
   #
   desc 'Clean temporary widget files'
