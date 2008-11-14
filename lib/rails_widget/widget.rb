@@ -2,9 +2,7 @@ module RailsWidget
   
   # Stores information about a widget and renders assets to <tt>public/</tt> when necessary.
   #
-  class Widget
-    include RailsWidget
-    
+  class Widget    
     attr :assets,  true # Paths for each ASSET_TYPE
     attr :cache,   true # Cache path for Rails asset helpers
     attr :options, true # Options hash from options.rb
@@ -88,7 +86,7 @@ module RailsWidget
             FileUtils.mkdir_p File.dirname(t)
             File.open t, 'w' do |file|
               begin
-                file.write ERB.new(File.read(f)).result(binding)
+                file.write ERB.new(File.read(f)).result
               rescue Exception => e
                 puts e.to_s
               end
@@ -154,12 +152,10 @@ module RailsWidget
     #
     def reject_ignored(assets, options)
       if ignore = options[:ignore]
-        ignore = ignore.respond_to?(:pop) ? ignore : [ ignore ]
+        ignore = [ ignore ] unless ignore.respond_to?(:pop)
         ignore.collect! do |i|
-          i = "app/widgets/#{i}"
-          assets.select do |a|
-            a[0..i.length-1] == i
-          end
+          matches = Dir["app/widgets/**/*#{i}"] - Dir["#{to_path(:base)}/**/*"]
+          assets.select { |a| matches.include?(a) }
         end
         ignore.flatten.compact.each do |i|
           assets.delete i

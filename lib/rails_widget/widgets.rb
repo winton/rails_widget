@@ -28,6 +28,7 @@ module RailsWidget
   #
   def flash_path(*path)
     flash = path.pop
+    path  = @widgets.path.split('/') if path.empty? && @widgets
     "/flash/widgets/#{path.join('/')}/#{flash}"
   end
   
@@ -39,7 +40,8 @@ module RailsWidget
   #
   def image(*path)
     options = path.extract_options!
-    image = path.pop
+    image   = path.pop
+    path    = @widgets.path.split('/') if path.empty? && @widgets
     ActionController::Base.helpers.image_tag "widgets/#{path.join('/')}/#{image}", options
   end
   
@@ -51,6 +53,7 @@ module RailsWidget
   #
   def image_path(*path)
     image = path.pop
+    path  = @widgets.path.split('/') if path.empty? && @widgets
     "/images/widgets/#{path.join('/')}/#{image}"
   end
   
@@ -63,8 +66,9 @@ module RailsWidget
   def partial(*path)
     options = path.extract_options!
     partial = path.pop
-    path << options
-    widgets, options = widget_instances path
+    path    = @widgets.path.split('/') if path.empty? && @widgets
+    widgets, opts = @widget.instances path
+    options = opts.merge(options)
     options = {
       :locals  => options.merge(:options => options),
       :partial => "#{path.join('/')}/partials/#{partial}"
@@ -75,6 +79,7 @@ module RailsWidget
   # Creates and recycles instances of the Widget class.
   #
   class Widgets
+    attr :path, true
     attr :widgets, true
     
     # Called from the <tt>widget (RailsWidget)</tt> helper.
@@ -84,6 +89,7 @@ module RailsWidget
       @bind       = bind
       @controller = controller
       @logger     = logger
+      @path       = []
       @widgets    = {}
       build # The app/widgets directory acts as a widget
     end
@@ -115,6 +121,7 @@ module RailsWidget
     def instanciate(path)
       opts = {}
       widgets = related_paths(path).collect do |r|
+        @path = r
         @widgets[r] ||= Widget.new r, @bind, @controller, @logger
         opts.merge! @widgets[r].options
         @widgets[r]
@@ -128,6 +135,7 @@ module RailsWidget
     #
     def add_static_assets(widgets, options)
       widgets.each do |w|
+        @path = w.path
         w.copy_assets
         js  = w.asset_paths :javascripts, options
         css = w.asset_paths :stylesheets, options
@@ -148,6 +156,7 @@ module RailsWidget
     def return_init_assets(widgets, options)
       # Render partials/_init.* (options[:include_js] will render javascripts/init.js in <script> tags)
       widgets.collect do |w|
+        @path = w.path
         # We want widgets rendered from the partial to include first
         partial = w.render_init :partials, options
         css = w.render_init :css, options
@@ -173,6 +182,7 @@ module RailsWidget
         from.split('/')[2..-3].join('/')
       end
       from.uniq.each do |f|
+        @path = f
         w = Widget.new f
         w.update_asset :stylesheets
         w.copy_assets

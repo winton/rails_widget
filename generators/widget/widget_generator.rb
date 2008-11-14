@@ -14,10 +14,10 @@ class WidgetGenerator < Rails::Generator::Base
       
       # Create directories for...
       if only.empty?
-        # all assets
+        # All assets
         only = types
       else
-        # some assets
+        # Some assets
         only.reject! { |type| !types.include?(type) }
       end
       only.each { |type| m.directory "#{widget}/#{type}" }
