@@ -28,5 +28,6 @@ end
 ActionView::Base.send :include, RailsWidget
 ActionController::Base.send :include, RailsWidget
 ActionController::Base.view_paths += [ RAILS_ROOT + '/app/widgets' ]
+Rails::Generator::Commands::Create.send :include, RailsWidget::Generator
 
 # :main:RailsWidget
